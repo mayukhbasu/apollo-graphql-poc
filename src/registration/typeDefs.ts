@@ -12,7 +12,12 @@ export const typeDefs = gql`
         confirmPassword: String!
     }
 
+    type Error {
+        path: String!
+        message: String!
+    }
+
     type Mutation {
-        register(email: String!, password: String!, confirmPassword: String!): User
+        register(email: String!, password: String!, confirmPassword: String!): [Error!]
     }
 `

@@ -1,9 +1,8 @@
 import "reflect-metadata";
 import {createConnection} from "typeorm";
 import { ApolloServer } from "apollo-server";
-import {User} from "./entity/User";
-import { typeDefs } from "./typeDefs";
-import { resolvers } from "./resolver";
+import { typeDefs } from "./registration/typeDefs";
+import { resolvers } from "./registration/resolver";
 
 const startServer = async () => {
     await createConnection();
