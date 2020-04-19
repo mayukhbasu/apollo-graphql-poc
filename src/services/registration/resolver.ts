@@ -15,14 +15,10 @@ export const resolvers: any = {
           return { id: "1", username: "@ava" }
         }
       },
-      User: {
-        __resolveReference(user, { fetchUserById }){
-          return fetchUserById(user.id)
-        }
-      },
+      
     Mutation: {
         register: async (parent:any, args:any, context, info) => {
-            console.log(parent);
+            
             
             const {email, password, confirmPassword} = args;
             try {
@@ -31,6 +27,7 @@ export const resolvers: any = {
                 console.log(err);
             }
             const userAlreadyExists = await User.findOne({where: {email}});
+            console.log(userAlreadyExists)
             if(userAlreadyExists) {
                 return [
                     {
