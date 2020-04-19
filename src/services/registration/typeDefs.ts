@@ -5,12 +5,14 @@ export const typeDefs = gql`
     type Query {
         get: String!
     }
-    type User {
+    type User @key(fields: "id") {
         id: String!
         email: String!
         password: String!
         confirmPassword: String!
     }
+
+    
 
     type Error {
         path: String!
@@ -20,4 +22,6 @@ export const typeDefs = gql`
     type Mutation {
         register(email: String!, password: String!, confirmPassword: String!): [Error!]
     }
+    
+    
 `

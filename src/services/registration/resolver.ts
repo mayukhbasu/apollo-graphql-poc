@@ -10,8 +10,20 @@ const schema = yup.object().shape({
 })
 
 export const resolvers: any = {
+    Query: {
+        me() {
+          return { id: "1", username: "@ava" }
+        }
+      },
+      User: {
+        __resolveReference(user, { fetchUserById }){
+          return fetchUserById(user.id)
+        }
+      },
     Mutation: {
-        register: async (_:any, args:any) => {
+        register: async (parent:any, args:any, context, info) => {
+            console.log(parent);
+            
             const {email, password, confirmPassword} = args;
             try {
                 schema.validate(args, {abortEarly: false})
