@@ -1,4 +1,4 @@
-import {Entity, PrimaryGeneratedColumn, Column, BaseEntity, Table} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, BaseEntity, Table, OneToMany} from "typeorm";
 
 @Entity("users")
 export class User extends BaseEntity{
@@ -11,6 +11,4 @@ export class User extends BaseEntity{
 
     @Column()
     password: string;
-
-
 }
