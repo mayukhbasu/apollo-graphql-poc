@@ -12,7 +12,7 @@ export const resolvers: any = {
     Mutation: {
         login: async (parent:any, args:any, context, info) => {
             
-            
+            console.log(context.message)
             const {email, password} = args;
             
             const user = await User.findOne({where: {email}});

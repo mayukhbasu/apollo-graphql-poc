@@ -14,6 +14,10 @@ const server = new ApolloServer({
       
     }
   ]),
+  context: ({req}) => {
+    console.log(req);
+    return {message: "Hello Graphql"}
+  }
  
 });
 
