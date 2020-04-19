@@ -1,21 +1,24 @@
-import "reflect-metadata";
-import {createConnection} from "typeorm";
-import {User} from "./entity/User";
+const { ApolloServer } = require('apollo-server');
+const { ApolloGateway } = require('@apollo/gateway');
 
-createConnection().then(async connection => {
+// Initialize an ApolloGateway instance and pass it an array of
+// your implementing service names and URLs
+const gateway = new ApolloGateway({
+  serviceList: [
+    { name: 'register', url: 'http://localhost:4001' },
+    { name: 'login', url: 'http://localhost:4002' },
+    // Define additional services here
+  ],
+});
 
-    console.log("Inserting a new user into the database...");
-    const user = new User();
-    user.firstName = "Timber";
-    user.lastName = "Saw";
-    user.age = 25;
-    await connection.manager.save(user);
-    console.log("Saved a new user with id: " + user.id);
+// Pass the ApolloGateway to the ApolloServer constructor
+const server = new ApolloServer({
+  gateway,
 
-    console.log("Loading users from the database...");
-    const users = await connection.manager.find(User);
-    console.log("Loaded users: ", users);
+  // Disable subscriptions (not currently supported with ApolloGateway)
+  subscriptions: false,
+});
 
-    console.log("Here you can setup and run express/koa/any other framework.");
-
-}).catch(error => console.log(error));
+server.listen().then(({ url }) => {
+  console.log(`🚀 Server ready at ${url}`);
+});

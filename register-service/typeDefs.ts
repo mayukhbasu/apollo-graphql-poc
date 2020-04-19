@@ -3,13 +3,13 @@ import {gql} from "apollo-server";
 export const typeDefs = gql`
 
     type Query {
-        get: String!
+        hi: String!
     }
-    type User @key(fields: "id") {
-        id: String!
-        email: String!
-        password: String!
-        confirmPassword: String!
+    type User @key(fields: "id"){
+        id: String! 
+        email: String! 
+        password: String! 
+        confirmPassword: String! 
     }
 
     

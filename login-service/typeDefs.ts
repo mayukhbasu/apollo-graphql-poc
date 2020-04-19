@@ -6,15 +6,13 @@ export const typeDefs = gql`
     type Query {
         get: String!
     }
-    type User @key(fields: "id") {
-        id: String!
-        email: String!
-        password: String!
+    extend type User @key(fields: "id") {
+        id: String! @external
     }
 
     type LoginResponse {
-        token: String
-        user: User
+        token: String!
+        user: User!
     }
 
     type Mutation {

@@ -8,18 +8,23 @@ const schema = yup.object().shape({
     password: yup.string().min(1).max(255),
     confirmPassword: yup.string().min(1).max(255)
 })
-
+const fetchUserById = async (id) => {
+    let user = await User.findOne({where: {id}});
+    return user;
+}
 export const resolvers: any = {
     Query: {
         me() {
           return { id: "1", username: "@ava" }
         }
       },
-      
+      User: {
+        __resolveReference(reference) {
+            return fetchUserById(reference.id);
+          }
+    },
     Mutation: {
         register: async (parent:any, args:any, context, info) => {
-            
-            
             const {email, password, confirmPassword} = args;
             try {
                 schema.validate(args, {abortEarly: false})
