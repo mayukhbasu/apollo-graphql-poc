@@ -1,6 +1,7 @@
 import { getUser } from "./utils";
-import { ApolloServer } from "apollo-server";
+import { ApolloServer } from "apollo-server-express";
 import { ApolloGateway, RemoteGraphQLDataSource } from "@apollo/gateway";
+import * as express from 'express';
 
 class AuthenticatedDataSource extends RemoteGraphQLDataSource {
     willSendRequest({ request, context }) {
@@ -10,10 +11,12 @@ class AuthenticatedDataSource extends RemoteGraphQLDataSource {
     }
   }
 
+const path = "/";
+const PORT = 4000;
 const gateway = new ApolloGateway({
     serviceList: [
-      { name: 'register', url: 'http://localhost:4001' },
-      { name: 'login', url: 'http://localhost:4002' },
+      { name: 'auth', url: 'http://localhost:4001' }
+      
       // List other services here
     ],
     buildService({ name, url }) {
@@ -37,7 +40,9 @@ const server = new ApolloServer({
     return { username };
   },
 });
+const app = express();
+server.applyMiddleware({app, path});
 
-server.listen().then(({ url }) => {
-  console.log(`🚀 Server ready at ${url}`);
-});
+app.listen({ port: PORT }, () =>
+  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
+)
