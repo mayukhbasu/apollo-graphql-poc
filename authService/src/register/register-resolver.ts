@@ -2,6 +2,8 @@
 import * as yup from 'yup';
 import * as bcrypt from 'bcryptjs';
 import { User } from '../entities/User';
+import { createConfirmEmailLink } from '../utils/createConfirmEmailLink';
+import { red } from 'color-name';
 
 const schema = yup.object().shape({
     email: yup.string().min(1).max(255).email(),
@@ -24,15 +26,17 @@ export const registerResolver: any = {
     //       }
     // },
     Mutation: {
-        register: async (parent:any, args:any, context, info) => {
+        register: async (parent:any, args:any, {redis, url}, info) => {
             const {email, password, confirmPassword} = args;
             try {
                 schema.validate(args, {abortEarly: false})
             } catch(err) {
                 console.log(err);
             }
+
+            
             const userAlreadyExists = await User.findOne({where: {email}});
-            console.log(userAlreadyExists)
+            //console.log(userAlreadyExists)
             if(userAlreadyExists) {
                 return [
                     {
@@ -48,6 +52,8 @@ export const registerResolver: any = {
                     password : hashedPassword
                 });
                 await user.save();
+                const link = await createConfirmEmailLink(url, user.id, redis);
+                
                 return null;
             } else {
                 return [

@@ -4,7 +4,7 @@ import {Entity, PrimaryGeneratedColumn, Column, BaseEntity, Table, OneToMany} fr
 export class User extends BaseEntity{
 
     @PrimaryGeneratedColumn("uuid")
-    id: number;
+    id: string;
 
     @Column()
     email: string;

@@ -24,17 +24,19 @@ const server = new ApolloServer({
       resolvers: registerResolver
     }
   ]),
-  context: ({req}) => ({
-      redis,
-      url: req.protocol + "://" + req.get("host")
-  })
+  context: ({req}) => {
+      return {
+          redis,
+          url: req.protocol + "://" + req.get("host")
+      }
+  }
 });
 
 const app = express();
 app.get("/confirm/:id", async(req, res) => {
     const {id} = req.params;
     const userId = await redis.get(id);
-    
+
 })
 server.applyMiddleware({app, path});
 app.listen({ port: PORT }, () =>

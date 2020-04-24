@@ -3,6 +3,7 @@ import { v4 } from "uuid";
 
 export const createConfirmEmailLink = async(url: string, userId: string, redis: Redis) => {
     const id = v4();
+    console.log(userId);
     await redis.set(id, userId, "ex", 60*60*24);
     return `${url}/confirm/${id}`;
 }
