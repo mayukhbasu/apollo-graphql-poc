@@ -4,6 +4,7 @@ import * as bcrypt from 'bcryptjs';
 import { User } from '../entities/User';
 import { createConfirmEmailLink } from '../utils/createConfirmEmailLink';
 import { red } from 'color-name';
+import { sendEmail } from '../utils/sendEmail';
 
 const schema = yup.object().shape({
     email: yup.string().min(1).max(255).email(),
@@ -53,7 +54,7 @@ export const registerResolver: any = {
                 });
                 await user.save();
                 const link = await createConfirmEmailLink(url, user.id, redis);
-                
+                await sendEmail(email, link);
                 return null;
             } else {
                 return [
