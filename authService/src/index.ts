@@ -1,5 +1,7 @@
 import "reflect-metadata";
 import {createConnection} from "typeorm";
+import * as session from "express-session";
+import * as connectRedis from "connect-redis"; 
 import { ApolloServer, ApolloServerExpressConfig } from "apollo-server-express";
 import { logintypeDefs } from "./login/login-typeDefs";
 import { loginResolver  } from "./login/login-resolver";
@@ -13,6 +15,7 @@ import { confirmEmail } from "./routes/sendEmailRoute";
 createConnection();
 const path = "/";
 const PORT = 4001;
+const RedisStore = connectRedis(session);
 const server = new ApolloServer({
   schema: buildFederatedSchema([
     {
@@ -27,12 +30,26 @@ const server = new ApolloServer({
   context: ({req}) => {
       return {
           redis,
-          url: req.protocol + "://" + req.get("host")
+          url: req.protocol + "://" + req.get("host"),
+          session: req.session
       }
   }
 });
 
 const app = express();
+app.use(
+  session({
+    store: new RedisStore({ client: redis as any }),
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: false,
+      maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
+    }
+  })
+)
 app.get("/confirm/:id", confirmEmail);
 server.applyMiddleware({app, path});
 app.listen({ port: PORT }, () =>

@@ -16,7 +16,7 @@ export const loginResolver: any = {
       },
     
     Mutation: {
-        login: async (parent:any, args:any, context, info) => {
+        login: async (parent:any, args:any, {session}, info) => {
             const {email, password} = args;
             const user = await User.findOne({where: {email}});
             if(!user) {
@@ -43,7 +43,8 @@ export const loginResolver: any = {
                     token: null,
                     message: "Invalid Login"
                 }
-            }
+            }   
+                session.userId = user.id; //Login successful
                 const token = jwt.sign(
                     {
                       id: user.id,
