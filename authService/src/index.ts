@@ -11,11 +11,28 @@ import { buildFederatedSchema } from "@apollo/federation";
 import * as express from 'express';
 import { redis } from "./redis";
 import { confirmEmail } from "./routes/sendEmailRoute";
+import { logoutTypeDefs } from "./logout/logout-typeDefs";
+import { logoutResolver } from "./logout/logout-resolver";
 
 createConnection();
 const path = "/";
 const PORT = 4001;
 const RedisStore = connectRedis(session);
+const app = express();
+app.use(
+  session({
+    store: new RedisStore({ host: 'localhost', port: 6379, client: redis,ttl :  260}),
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      path: "/",
+      secure: false,
+      maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
+    }
+  })
+)
 const server = new ApolloServer({
   schema: buildFederatedSchema([
     {
@@ -25,31 +42,22 @@ const server = new ApolloServer({
     {
       typeDefs: registerTypeDefs,
       resolvers: registerResolver
+    },
+    {
+      typeDefs: logoutTypeDefs,
+      resolvers: logoutResolver
     }
   ]),
   context: ({req}) => {
       return {
           redis,
           url: req.protocol + "://" + req.get("host"),
-          session: req.session
+          session: req.session,
+          req
       }
   }
 });
 
-const app = express();
-app.use(
-  session({
-    store: new RedisStore({ client: redis as any }),
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      secure: false,
-      maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
-    }
-  })
-)
 app.get("/confirm/:id", confirmEmail);
 server.applyMiddleware({app, path});
 app.listen({ port: PORT }, () =>

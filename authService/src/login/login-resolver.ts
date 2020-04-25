@@ -1,22 +1,20 @@
 import * as bcrypt from 'bcryptjs';
 import { User } from '../entities/User';
 import * as jwt from 'jsonwebtoken';
+import { userSessionIdPrefix } from '../constants';
 
-
-const fetchUserById = (id) => {
-    console.log("Hi Mayukh")
-    console.log(id);
-}
 export const loginResolver: any = {
     Query: {
-        me() {
+        me(parent:any, args:any, {session}, info) {
+          console.log(session);   
           return { id: "1", username: "@ava" }
         }
         
       },
     
     Mutation: {
-        login: async (parent:any, args:any, {session}, info) => {
+        login: async (parent:any, args:any, {redis, session, req}, info) => {
+            console.log(req.sessionID);
             const {email, password} = args;
             const user = await User.findOne({where: {email}});
             if(!user) {
@@ -44,6 +42,7 @@ export const loginResolver: any = {
                     message: "Invalid Login"
                 }
             }   
+                console.log(session);
                 session.userId = user.id; //Login successful
                 const token = jwt.sign(
                     {
@@ -55,6 +54,10 @@ export const loginResolver: any = {
                       expiresIn: '30d', // token will expire in 30days
                     },
                   );
+                  if(req.sessionID && user.id) {
+                      console.log(req.sessionID);
+                      await redis.lpush(`${userSessionIdPrefix}${user.id}`, req.sessionID);
+                  }
                   return {
                           token,
                           user,

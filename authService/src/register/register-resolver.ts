@@ -27,7 +27,7 @@ export const registerResolver: any = {
     //       }
     // },
     Mutation: {
-        register: async (parent:any, args:any, {redis, url}, info) => {
+        register: async (parent:any, args:any, {redis, url, session}, info) => {
             const {email, password, confirmPassword} = args;
             try {
                 schema.validate(args, {abortEarly: false})
@@ -37,7 +37,6 @@ export const registerResolver: any = {
 
             
             const userAlreadyExists = await User.findOne({where: {email}});
-            //console.log(userAlreadyExists)
             if(userAlreadyExists) {
                 return [
                     {
