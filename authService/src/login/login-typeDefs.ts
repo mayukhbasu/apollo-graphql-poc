@@ -8,12 +8,13 @@ export const logintypeDefs = gql`
     }
     
     type LoginResponse {
-        token: String!
-        user: User!
+        token: String
+        user: User
+        message: String!
     }
 
     extend type Mutation {
-        login(email: String!, password: String!): LoginResponse!
+        login(email: String!, password: String!): LoginResponse
     }
     
     

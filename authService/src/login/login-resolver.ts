@@ -19,28 +19,46 @@ export const loginResolver: any = {
         login: async (parent:any, args:any, context, info) => {
             const {email, password} = args;
             const user = await User.findOne({where: {email}});
-            if (!user) {
-                throw new Error('Invalid Login')
+            if(!user) {
+                return {
+                    token: null,
+                    user: null,
+                    message: "Invalid Login"
+                }
             }
+            if(!user.confirmed) {
+                return {
+                    token: null,
+                    user: null,
+                    message: "User has not confirmed by email"
+                }
+            }
+            
             const passwordMatch = await bcrypt.compare(password, user.password);
+            
             if (!passwordMatch) {
-                throw new Error('Invalid Login')
+                console.log(passwordMatch);
+                return {
+                    user: null,
+                    token: null,
+                    message: "Invalid Login"
+                }
             }
-            const token = jwt.sign(
-                {
-                  id: user.id,
-                  username: user.email,
-                },
-                'secret',
-                {
-                  expiresIn: '30d', // token will expire in 30days
-                },
-              )
-              return {
-                  token,
-                  user
-              }
-
+                const token = jwt.sign(
+                    {
+                      id: user.id,
+                      username: user.email,
+                    },
+                    'secret',
+                    {
+                      expiresIn: '30d', // token will expire in 30days
+                    },
+                  );
+                  return {
+                          token,
+                          user,
+                          message: "Login Successful"
+                      }
         }
     }
 }
