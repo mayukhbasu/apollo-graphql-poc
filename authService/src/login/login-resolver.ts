@@ -9,7 +9,6 @@ export const loginResolver: any = {
           console.log(session);   
           return { id: "1", username: "@ava" }
         }
-        
       },
     
     Mutation: {

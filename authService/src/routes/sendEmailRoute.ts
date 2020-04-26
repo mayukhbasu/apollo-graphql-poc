@@ -4,6 +4,7 @@ import { User } from "../entities/User";
 
 export const confirmEmail = async (req: Request, res: Response) => {
     const {id} = req.params;
+    console.log(req);
     const userId = await redis.get(id);
     if(userId) {
         await User.update({id: userId}, {confirmed: true});

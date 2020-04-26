@@ -1,4 +1,5 @@
 import { userSessionIdPrefix, redisSessionPrefix } from "../constants";
+import { removeAllUserSession } from "../utils/removeAllUsersSession";
 
 
 export const logoutResolver:any = {
@@ -11,7 +12,7 @@ export const logoutResolver:any = {
         logout: async(parent:any, args:any, {redis,session}, info) => {
             const {userId} = session;
             if(userId) {
-                
+                removeAllUserSession(userId, redis);
                 return true;
             }
 

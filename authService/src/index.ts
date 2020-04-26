@@ -2,7 +2,7 @@ import "reflect-metadata";
 import {createConnection} from "typeorm";
 import * as session from "express-session";
 import * as connectRedis from "connect-redis"; 
-import { ApolloServer, ApolloServerExpressConfig } from "apollo-server-express";
+import { ApolloServer} from "apollo-server-express";
 import { logintypeDefs } from "./login/login-typeDefs";
 import { loginResolver  } from "./login/login-resolver";
 import { registerTypeDefs } from "./register/register-typeDefs";
@@ -13,6 +13,8 @@ import { redis } from "./redis";
 import { confirmEmail } from "./routes/sendEmailRoute";
 import { logoutTypeDefs } from "./logout/logout-typeDefs";
 import { logoutResolver } from "./logout/logout-resolver";
+import { forgotPasswordTypeDefs } from "./forgot-password/forgot-password-typeDefs";
+import { forgotPasswordResolver } from "./forgot-password/forgot-password-resolver";
 
 createConnection();
 const path = "/";
@@ -46,6 +48,10 @@ const server = new ApolloServer({
     {
       typeDefs: logoutTypeDefs,
       resolvers: logoutResolver
+    },
+    {
+      typeDefs: forgotPasswordTypeDefs,
+      resolvers: forgotPasswordResolver
     }
   ]),
   context: ({req}) => {
