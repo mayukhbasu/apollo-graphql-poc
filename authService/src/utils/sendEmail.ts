@@ -15,3 +15,15 @@ export const sendEmail = async(recipient: string, url: string) => {
 
     await sgMail.send(content);
 }
+
+export const sendPasswordConfirmationEmail = async(recipient: string, url: string) => {
+    const content = {
+        to: `${recipient}`,
+        from: 'test@example.com',
+        subject: 'Change Password',
+        html: `<strong>Click here to change password.
+             ${url}</strong>`,
+    };
+
+    await sgMail.send(content);
+}
