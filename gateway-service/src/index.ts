@@ -7,7 +7,8 @@ class AuthenticatedDataSource extends RemoteGraphQLDataSource {
     willSendRequest({ request, context }) {
       // Pass the user's id from the context to underlying services
       // as a header called `user-id`
-      request.http.headers.set('user-id', context.userId);
+      request.http.headers.set('Authorization', context.token);
+
     }
   }
 
@@ -32,12 +33,9 @@ const server = new ApolloServer({
   subscriptions: false,
   context: ({ req }) => {
     // Get the user token from the headers
-    const token = req.headers.authorization.split(" ")[1] || '';
+    const token = req.headers.authorization.split(" ")[1] || 'abc';
     // Try to retrieve a user with the token
-    const username:any = getUser(token);
-    // Add the user ID to the context
-    console.log(username.username);
-    return { username };
+    return {token}
   },
 });
 const app = express();
