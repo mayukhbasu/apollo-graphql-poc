@@ -9,14 +9,17 @@ export const logoutResolver:any = {
         }
     },
     Mutation: {
-        logout: async(parent:any, args:any, {redis,session}, info) => {
-            const {userId} = session;
-            if(userId) {
-                removeAllUserSession(userId, redis);
-                return true;
-            }
+        logout: async(parent:any, args:any, {token, req}, info) => {
+            
+            console.log(req.headers.authorization);
+            console.log(req.sessionID)
+            // const {userId} = session;
+            // if(userId) {
+            //     removeAllUserSession(userId, redis);
+            //     return true;
+            // }
 
-            return false;
+            // return false;
         }
     }
 }
