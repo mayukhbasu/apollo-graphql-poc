@@ -55,9 +55,8 @@ const server = new ApolloServer({
     // Get the user token from the headers
     const token = req.headers.authorization.split(" ")[1] || 'abc';
     // Try to retrieve a user with the token
-    console.log(getUser(token));
-    const userId = getUser(token)
-    return {userId, req, redis, token}
+
+    return {redis, token}
   },
 });
 server.applyMiddleware({app, path});
