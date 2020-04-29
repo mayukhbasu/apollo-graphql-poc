@@ -17,13 +17,14 @@ export const logoutResolver:any = {
             const {authorization} = req.headers;
             const sessionID = req.sessionID;
             console.log(req.sessionID)
-            const isBlacklisted = await redis.mget(authorization);
+            const isBlacklisted = await redis.get(authorization);
             console.log(isBlacklisted);
+            if(isBlacklisted){
+                return false;
+            }
             if(userId) {
                 await removeAllUserSession(userId, redis);
                 await redis.set(authorization, "blacklisted")
-                const isBlacklisted = await redis.mget(authorization);
-                console.log(isBlacklisted);
                 return true;
             }
 
