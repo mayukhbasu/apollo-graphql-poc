@@ -2,6 +2,7 @@ import * as bcrypt from 'bcryptjs';
 import { User } from '../entities/User';
 import * as jwt from 'jsonwebtoken';
 import { userSessionIdPrefix } from '../constants';
+import { getUser } from '../utils/getUser';
 
 export const loginResolver: any = {
     Query: {
@@ -57,6 +58,9 @@ export const loginResolver: any = {
                       console.log(req.sessionID);
                       await redis.lpush(`${userSessionIdPrefix}${user.id}`, req.sessionID);
                   }
+                  const decoded = getUser(token).username;
+                  console.log("User is");
+                  console.log(decoded);
                   return {
                           token,
                           user,
