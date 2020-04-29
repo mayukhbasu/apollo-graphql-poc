@@ -54,12 +54,12 @@ const server = new ApolloServer({
       resolvers: forgotPasswordResolver
     }
   ]),
-  context: ({req}) => {
+  context: ({req, res}) => {
       return {
           redis,
           url: req.protocol + "://" + req.get("host"),
           session: req.session,
-          req
+          req, res
       }
   }
 });

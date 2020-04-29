@@ -7,14 +7,14 @@ import { getUser } from '../utils/getUser';
 export const loginResolver: any = {
     Query: {
         me(parent:any, args:any, {session}, info) {
-          console.log(session);   
+         
           return { id: "1", username: "@ava" }
         }
       },
     
     Mutation: {
-        login: async (parent:any, args:any, {redis, session, req}, info) => {
-            console.log(req.sessionID);
+        login: async (parent:any, args:any, {redis, session, req, res}, info) => {
+            console.log(res);
             const {email, password} = args;
             const user = await User.findOne({where: {email}});
             if(!user) {
@@ -42,9 +42,19 @@ export const loginResolver: any = {
                     message: "Invalid Login"
                 }
             }   
-                console.log(session);
+                
                 session.userId = user.id; //Login successful
                 const token = jwt.sign(
+                    {
+                      id: user.id,
+                      username: user.email,
+                    },
+                    'secret',
+                    {
+                      expiresIn: '1d', // token will expire in 30days
+                    },
+                  );
+                  const refreshToken = jwt.sign(
                     {
                       id: user.id,
                       username: user.email,
@@ -55,10 +65,11 @@ export const loginResolver: any = {
                     },
                   );
                   if(req.sessionID && user.id) {
-                      console.log(req.sessionID);
+                      
                       await redis.lpush(`${userSessionIdPrefix}${user.id}`, req.sessionID);
                   }
-
+                  res.cookie("refresh-token", refreshToken);
+                  res.cookie("access-token", token);
                   return {
                           token,
                           user,
