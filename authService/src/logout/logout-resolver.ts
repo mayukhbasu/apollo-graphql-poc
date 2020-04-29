@@ -1,6 +1,5 @@
-import { userSessionIdPrefix, redisSessionPrefix } from "../constants";
 import { removeAllUserSession } from "../utils/removeAllUsersSession";
-import { getUser } from "../utils/getUser";
+
 
 
 export const logoutResolver:any = {
@@ -15,7 +14,6 @@ export const logoutResolver:any = {
             console.log(req.headers);
             const userId = req.headers.userid;
             const {authorization} = req.headers;
-            const sessionID = req.sessionID;
             console.log(req.sessionID)
             const isBlacklisted = await redis.get(authorization);
             console.log(isBlacklisted);
