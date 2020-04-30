@@ -5,6 +5,7 @@ import * as session from "express-session";
 import { redis } from "./redis";
 import { ApolloGateway, RemoteGraphQLDataSource } from "@apollo/gateway";
 import * as express from 'express';
+import { resolve } from "path";
 
 class AuthenticatedDataSource extends RemoteGraphQLDataSource {
     willSendRequest({ request, context }) {
@@ -54,11 +55,10 @@ const server = new ApolloServer({
 
   // Disable subscriptions (not currently supported with ApolloGateway)
   subscriptions: false,
-  context: ({ req}) => {
+  context: ({ req, res}) => {
     // Get the user token from the headers
     const token = req.headers.authorization.split(" ")[1] || 'abc';
     // Try to retrieve a user with the token
-    
     return {redis, token, accessToken:""}
   },
   debug: true,
@@ -67,7 +67,10 @@ const server = new ApolloServer({
       requestDidStart() {
         return {
           willSendResponse({ context, response }) {
-            response.http.headers.set('Set-Cookie', `refresh-token=${context.refreshToken},access-token=${context.accessToken}`);
+            console.log(response.data);
+            response.http.headers.set('access-token', `${context.accessToken}`);
+            response.http.headers.set('refresh-token', `${context.refreshToken}`);
+            
           }
         };
       }

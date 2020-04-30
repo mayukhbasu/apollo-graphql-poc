@@ -8,7 +8,6 @@ export const logintypeDefs = gql`
     }
     
     type LoginResponse {
-        token: String
         user: User
         message: String!
     }

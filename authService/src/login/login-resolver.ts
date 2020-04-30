@@ -3,6 +3,7 @@ import { User } from '../entities/User';
 import * as jwt from 'jsonwebtoken';
 import { userSessionIdPrefix } from '../constants';
 import { getUser } from '../utils/getUser';
+import { access } from 'fs';
 
 export const loginResolver: any = {
     Query: {
@@ -44,7 +45,7 @@ export const loginResolver: any = {
             }   
                 
                 session.userId = user.id; //Login successful
-                const token = jwt.sign(
+                const accessToken = jwt.sign(
                     {
                       id: user.id,
                       username: user.email,
@@ -68,10 +69,10 @@ export const loginResolver: any = {
                       
                       await redis.lpush(`${userSessionIdPrefix}${user.id}`, req.sessionID);
                   }
-                  res.cookie("refresh-token", refreshToken);
-                  res.cookie("access-token", token);
+                  
+                  res.setHeader('accessToken', `${refreshToken}`);
+                  res.setHeader('refreshToken', `${accessToken}`);
                   return {
-                          token,
                           user,
                           message: "Login Successful"
                       }
