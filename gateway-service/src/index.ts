@@ -8,9 +8,12 @@ import * as express from 'express';
 
 class AuthenticatedDataSource extends RemoteGraphQLDataSource {
     willSendRequest({ request, context }) {
-      request.http.headers.set('userId', context.userId);
       request.http.headers.set('authorization', context.token);
-      //request.http.headers.set('sessionID', context.req);
+    }
+    async didReceiveResponse({ response, request, context }) {
+      context.accessToken = response.http.headers.get('accessToken');
+      context.refreshToken = response.http.headers.get('refreshToken');
+      return response;
     }
   }
   
@@ -51,13 +54,25 @@ const server = new ApolloServer({
 
   // Disable subscriptions (not currently supported with ApolloGateway)
   subscriptions: false,
-  context: ({ req }) => {
+  context: ({ req}) => {
     // Get the user token from the headers
     const token = req.headers.authorization.split(" ")[1] || 'abc';
     // Try to retrieve a user with the token
-
-    return {redis, token}
+    
+    return {redis, token, accessToken:""}
   },
+  debug: true,
+  plugins: [
+    {
+      requestDidStart() {
+        return {
+          willSendResponse({ context, response }) {
+            response.http.headers.set('Set-Cookie', `refresh-token=${context.refreshToken},access-token=${context.accessToken}`);
+          }
+        };
+      }
+    }
+  ]
 });
 server.applyMiddleware({app, path});
 app.listen({ port: PORT }, () =>
