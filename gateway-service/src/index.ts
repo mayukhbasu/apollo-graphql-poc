@@ -5,7 +5,7 @@ import * as session from "express-session";
 import { redis } from "./redis";
 import { ApolloGateway, RemoteGraphQLDataSource } from "@apollo/gateway";
 import * as express from 'express';
-import { resolve } from "path";
+import * as cookieParser from 'cookie-parser';
 
 class AuthenticatedDataSource extends RemoteGraphQLDataSource {
     willSendRequest({ request, context }) {
@@ -23,7 +23,7 @@ class AuthenticatedDataSource extends RemoteGraphQLDataSource {
   const RedisStore = connectRedis(session);
   //const RedisStore = connectRedis(session);
   const app = express();
-  
+  app.use(cookieParser());
   app.use(
     session({
       store: new RedisStore({ host: 'localhost', port: 6379, client: redis,ttl :  260}),
@@ -57,7 +57,9 @@ const server = new ApolloServer({
   subscriptions: false,
   context: ({ req, res}) => {
     // Get the user token from the headers
+    console.log(req.cookies);
     const token = req.headers.authorization.split(" ")[1] || 'abc';
+    //const token = req.cookies.authorization.split(" ")[1] || 'abc';
     // Try to retrieve a user with the token
     return {redis, token, accessToken:""}
   },
@@ -67,9 +69,9 @@ const server = new ApolloServer({
       requestDidStart() {
         return {
           willSendResponse({ context, response }) {
-            console.log(response.data);
-            response.http.headers.set('access-token', `${context.accessToken}`);
-            response.http.headers.set('refresh-token', `${context.refreshToken}`);
+            response.http.headers.set('Set-Cookie', `accessToken=${context.accessToken}; expires=Tue, 03-Apr-2018 14:47:31 GMT; Max-Age=31449600; Path=/`);
+            response.http.headers.set('Set-Cookie', `refreshToken=${context.refreshToken}; expires=Tue, 03-Apr-2018 14:47:31 GMT; Max-Age=31449600; Path=/`);
+            //console.log(response.http.headers);
             
           }
         };

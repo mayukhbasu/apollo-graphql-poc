@@ -9,6 +9,7 @@ import { registerTypeDefs } from "./register/register-typeDefs";
 import {registerResolver} from "./register/register-resolver";
 import { buildFederatedSchema } from "@apollo/federation";
 import * as express from 'express';
+import * as cookieParser from 'cookie-parser';
 import { redis } from "./redis";
 import { confirmEmail } from "./routes/sendEmailRoute";
 import { logoutTypeDefs } from "./logout/logout-typeDefs";
@@ -21,6 +22,7 @@ const path = "/";
 const PORT = 4001;
 const RedisStore = connectRedis(session);
 const app = express();
+app.use(cookieParser());
 app.use(
   session({
     store: new RedisStore({ host: 'localhost', port: 6379, client: redis,ttl :  260}),
