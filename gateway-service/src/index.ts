@@ -57,8 +57,14 @@ const server = new ApolloServer({
   subscriptions: false,
   context: ({ req, res}) => {
     // Get the user token from the headers
-    console.log(req.cookies);
-    const token = req.headers.authorization.split(" ")[1] || 'abc';
+    let token;
+    console.log(req.headers);
+    if(req.headers.authorization) {
+      token = req.headers.authorization.split(" ")[1] || 'abc';
+    } else {
+      token = "";
+    }
+    
     //const token = req.cookies.authorization.split(" ")[1] || 'abc';
     // Try to retrieve a user with the token
     return {redis, token, accessToken:""}
