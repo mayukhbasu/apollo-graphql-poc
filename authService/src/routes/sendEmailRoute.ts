@@ -9,7 +9,7 @@ export const confirmEmail = async (req: Request, res: Response) => {
     if(userId) {
         await User.update({id: userId}, {confirmed: true});
         await redis.del(id);
-        res.send("ok");
+        res.redirect("http://localhost:3000/");
     } else {
         res.send("Invalid email");
     }

@@ -15,7 +15,7 @@ export const loginResolver: any = {
     
     Mutation: {
         login: async (parent:any, args:any, {redis, session, req, res}, info) => {
-            console.log(req.cookies);
+            
             const {email, password} = args;
             const user = await User.findOne({where: {email}});
             if(!user) {
