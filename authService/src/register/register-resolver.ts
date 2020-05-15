@@ -8,6 +8,8 @@ import { sendEmail } from '../utils/sendEmail';
 
 const schema = yup.object().shape({
     email: yup.string().min(1).max(255).email(),
+    firstName: yup.string().min(1).max(255),
+    lastName: yup.string().min(1).max(255),
     password: yup.string().min(1).max(255),
     confirmPassword: yup.string().min(1).max(255)
 })
@@ -28,7 +30,7 @@ export const registerResolver: any = {
     // },
     Mutation: {
         register: async (parent:any, args:any, {redis, url, session}, info) => {
-            const {email, password, confirmPassword} = args;
+            const {email, password, confirmPassword, firstName, lastName} = args;
             try {
                 schema.validate(args, {abortEarly: false})
             } catch(err) {
@@ -49,7 +51,9 @@ export const registerResolver: any = {
                 const hashedPassword = await bcrypt.hash(password, 10);
                 const user = User.create({
                     email, 
-                    password : hashedPassword
+                    password : hashedPassword,
+                    firstName,
+                    lastName
                 });
                 await user.save();
                 const link = await createConfirmEmailLink(url, user.id, redis);

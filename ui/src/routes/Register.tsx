@@ -5,8 +5,8 @@ import {useMutation } from '@apollo/react-hooks';
 import ConfirmEmail from '../UI/Modal';
 
 const REGISTER_QUERY = gql`
-    mutation Register($email: String!, $password: String!, $confirmPassword: String!){
-        register(email: $email, password: $password, confirmPassword: $confirmPassword){
+    mutation Register($email: String!, $password: String!, $confirmPassword: String!, $firstName: String!, $lastName: String!){
+        register(email: $email, password: $password, confirmPassword: $confirmPassword, firstName: $firstName, lastName: $lastName){
             path
             message
         }
@@ -14,6 +14,8 @@ const REGISTER_QUERY = gql`
 `
 
 const Register = (props:any) => {
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [modal, setModal] = useState(false);
@@ -26,9 +28,8 @@ const Register = (props:any) => {
     }
     const register = async (event:any) => {
         event.preventDefault();
-        console.log({email, password, confirmPassword});
         const response:any = await registerQuery({variables: {
-            email, password, confirmPassword
+            email, password, confirmPassword, firstName, lastName
         }})
         
         if(response.data.register){
@@ -51,9 +52,29 @@ const Register = (props:any) => {
             <Row>
                 <Col sm="6">
                     <FormGroup>
+                        <Label for="exampleEmail">First Name</Label>
+                        <Input type="text" name="firstName" 
+                        id="firstName" 
+                        value={firstName} onChange={(event) => setFirstName(event.target.value)}/>
+                    </FormGroup>
+                </Col>
+            </Row>
+            <Row>
+                <Col sm="6">
+                    <FormGroup>
+                        <Label for="exampleEmail">Last Name</Label>
+                        <Input type="text" name="lastName" 
+                        id="lastName" 
+                        value={lastName} onChange={(event) => setLastName(event.target.value)}/>
+                    </FormGroup>
+                </Col>
+            </Row>
+            <Row>
+                <Col sm="6">
+                    <FormGroup>
                         <Label for="exampleEmail">Email</Label>
                         <Input type="email" name="email" 
-                        id="exampleEmail" placeholder="with a placeholder" 
+                        id="exampleEmail" 
                         value={email} onChange={(event) => setEmail(event.target.value)}/>
                     </FormGroup>
                 </Col>
@@ -62,7 +83,7 @@ const Register = (props:any) => {
                 <Col sm="6">
                     <FormGroup>
                         <Label for="exampleEmail">Password</Label>
-                        <Input type="password" name="password" id="password" placeholder="with a placeholder" 
+                        <Input type="password" name="password" id="password" 
                         value={password} onChange={(event) => setPassword(event.target.value)}/>
                     </FormGroup>
                 </Col>
@@ -71,7 +92,7 @@ const Register = (props:any) => {
                 <Col sm="6">
                     <FormGroup>
                         <Label for="exampleEmail">Confirm Password</Label>
-                        <Input type="password" name="cpassword" id="cpassword" placeholder="with a placeholder" 
+                        <Input type="password" name="cpassword" id="cpassword"
                         value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)}/>
                     </FormGroup>
                 </Col>

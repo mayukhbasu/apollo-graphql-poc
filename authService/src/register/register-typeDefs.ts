@@ -21,7 +21,7 @@ export const registerTypeDefs = gql`
     }
 
     type Mutation {
-        register(email: String!, password: String!, confirmPassword: String!): [Error!]
+        register(email: String!, password: String!, confirmPassword: String!, firstName: String!, lastName: String!): [Error!]
     }
     
     

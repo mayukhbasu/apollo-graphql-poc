@@ -3,10 +3,10 @@ import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 
 const ConfirmEmail = (props:any) => {
     
-    const [backdrop] = useState(true);
+    
     const [keyboard] = useState(true);
     const {
-        buttonLabel,
+        
         className
       } = props;
 
