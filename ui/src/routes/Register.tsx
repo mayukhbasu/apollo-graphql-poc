@@ -33,8 +33,15 @@ const Register = (props:any) => {
         
         if(response.data.register){
             console.log(response.data.register[0].message);
+            setEmail('');
+            setPassword('');
+            setConfirmPassword('');
         } else {
-            setModal(true)
+            setModal(true);
+            setEmail('');
+            setPassword('');
+            setConfirmPassword('');
+            
         }
         
     }
@@ -75,7 +82,7 @@ const Register = (props:any) => {
                 </Col>
             </Row>
             </Form>
-            <ConfirmEmail modal={modal} toggle={toggle}/>
+            <ConfirmEmail modal={modal} toggle={toggle} history={props.history}/>
         </Container>
         
     )
