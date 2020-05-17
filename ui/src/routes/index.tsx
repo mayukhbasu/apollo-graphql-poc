@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Switch} from 'react-router-dom';
 import Register from './Register';
 import Home from './Home';
-import Login from './Login';
+import Login from '../core/Login';
 
 export default () => (
     <BrowserRouter>

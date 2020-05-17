@@ -1,0 +1,14 @@
+.login {
+    padding: 20px;
+}
+
+.facebook{
+    position: relative;
+    top: 75px;
+}
+
+.btn-secondary {
+    color: #fff;
+    background-color: darkmagenta !important;
+    border-color: darkmagenta !important;
+}

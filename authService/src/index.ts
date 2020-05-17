@@ -11,6 +11,7 @@ import { buildFederatedSchema } from "@apollo/federation";
 import * as express from 'express';
 import * as cookieParser from 'cookie-parser';
 import { redis } from "./redis";
+import './utils/passport';
 import { confirmEmail } from "./routes/sendEmailRoute";
 import { logoutTypeDefs } from "./logout/logout-typeDefs";
 import { logoutResolver } from "./logout/logout-resolver";
@@ -69,8 +70,12 @@ const server = new ApolloServer({
 });
 
 app.get("/confirm/:id", confirmEmail);
-app.get("/auth/facebook", passport.authenticate('facebook'));
-app.get('/auth/facebook/callback',callback)
+app.get("/auth/google", passport.authenticate('google', { scope: [
+  'https://www.googleapis.com/auth/userinfo.profile',
+  'https://www.googleapis.com/auth/userinfo.email'] }));
+app.get('/auth/google/callback',passport.authenticate('google',{ failureRedirect: '/login' }, (req, res) => {
+  console.log("passport authentication")
+}))
 
 server.applyMiddleware({app, path});
 app.listen({ port: PORT }, () =>

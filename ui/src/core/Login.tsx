@@ -2,7 +2,9 @@ import React , {useState} from 'react';
 import { Container, Form, Row, Col, FormGroup, Label, Input, Button} from 'reactstrap';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
-import NavbarApp from '../UI/Navbar';
+import NavbarApp from './Navbar';
+import './Login.css'
+import { Link } from 'react-router-dom';
 
 const LOGIN_QUERY = gql`
     mutation login($email: String!, $password: String!){
@@ -28,7 +30,7 @@ const Login = (props:any) => {
         <React.Fragment>
             <NavbarApp/>
         
-        <Container className="mt-5">
+        <Container className="mt-5 login">
         
         <Form onSubmit={submit}>
         <Row>
@@ -40,6 +42,10 @@ const Login = (props:any) => {
                     value={email} onChange={(event) => setEmail(event.target.value)}/>
                 </FormGroup>
             </Col>
+            <Col sm="6"><Button className="facebook" color="danger" size="lg"
+             block>
+                <Link to="/auth/facebook" style={{color:'white'}}>Sign in with Google</Link>
+            </Button></Col>
         </Row>
         <Row>
             <Col sm="6">
@@ -53,7 +59,7 @@ const Login = (props:any) => {
         
         <Row>
             <Col sm="6">
-                <Button color="primary" size="sm" block>Login</Button>
+                <Button size="sm" block>Login</Button>
             </Col>
         </Row>
         </Form>
