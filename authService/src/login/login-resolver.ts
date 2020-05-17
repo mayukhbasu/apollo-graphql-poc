@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcryptjs';
 import { User } from '../entities/User';
 import * as jwt from 'jsonwebtoken';
-import { userSessionIdPrefix } from '../constants';
+import { userSessionIdPrefix , accessTokenPrefix} from '../constants';
 import { getUser } from '../utils/getUser';
 import { access } from 'fs';
 
@@ -68,6 +68,7 @@ export const loginResolver: any = {
                   if(req.sessionID && user.id) {
                       
                       await redis.lpush(`${userSessionIdPrefix}${user.id}`, req.sessionID);
+                      await redis.lpush(`${accessTokenPrefix}${user.id}`, accessToken, "EX", 10);
                   }
                   
                   res.setHeader('accessToken', `${refreshToken}`);

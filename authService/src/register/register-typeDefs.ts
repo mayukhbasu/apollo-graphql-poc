@@ -6,11 +6,14 @@ export const registerTypeDefs = gql`
         hi: String!
     }
     type User @key(fields: "id"){
+        firstName: String!
+        lastName: String!
         id: String! 
         email: String! 
         password: String! 
         confirmPassword: String! 
         confirmed: Boolean
+
     }
 
     
