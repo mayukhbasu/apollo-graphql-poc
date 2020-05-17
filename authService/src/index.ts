@@ -16,6 +16,8 @@ import { logoutTypeDefs } from "./logout/logout-typeDefs";
 import { logoutResolver } from "./logout/logout-resolver";
 import { forgotPasswordTypeDefs } from "./forgot-password/forgot-password-typeDefs";
 import { forgotPasswordResolver } from "./forgot-password/forgot-password-resolver";
+import passport = require("passport");
+import { callback } from "./routes/authRoute";
 
 createConnection();
 const path = "/";
@@ -67,6 +69,9 @@ const server = new ApolloServer({
 });
 
 app.get("/confirm/:id", confirmEmail);
+app.get("/auth/facebook", passport.authenticate('facebook'));
+app.get('/auth/facebook/callback',callback)
+
 server.applyMiddleware({app, path});
 app.listen({ port: PORT }, () =>
   console.log(`🚀 Server ready at http://localhost:4001${server.graphqlPath}`)
