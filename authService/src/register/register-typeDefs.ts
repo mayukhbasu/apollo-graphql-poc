@@ -10,7 +10,7 @@ export const registerTypeDefs = gql`
         lastName: String!
         id: String! 
         email: String! 
-        password: String! 
+        password: String
         confirmPassword: String! 
         confirmed: Boolean
 

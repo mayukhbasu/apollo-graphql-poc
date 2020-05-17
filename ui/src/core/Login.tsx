@@ -42,9 +42,9 @@ const Login = (props:any) => {
                     value={email} onChange={(event) => setEmail(event.target.value)}/>
                 </FormGroup>
             </Col>
-            <Col sm="6"><Button className="facebook" color="danger" size="lg"
+            <Col sm="6"><Button type="button" className="facebook" color="danger" size="lg" 
              block>
-                <Link to="/auth/facebook" style={{color:'white'}}>Sign in with Google</Link>
+                <a style={{textDecoration: 'none', color: 'white'}} href="/auth/google">Sign in with Google</a>
             </Button></Col>
         </Row>
         <Row>

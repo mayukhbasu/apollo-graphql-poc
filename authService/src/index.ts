@@ -73,8 +73,8 @@ app.get("/confirm/:id", confirmEmail);
 app.get("/auth/google", passport.authenticate('google', { scope: [
   'https://www.googleapis.com/auth/userinfo.profile',
   'https://www.googleapis.com/auth/userinfo.email'] }));
-app.get('/auth/google/callback',passport.authenticate('google',{ failureRedirect: '/login' }, (req, res) => {
-  console.log("passport authentication")
+app.get('/auth/google/callback',passport.authenticate('google',{ successRedirect: '/' }, (req, res) => {
+  
 }))
 
 server.applyMiddleware({app, path});
