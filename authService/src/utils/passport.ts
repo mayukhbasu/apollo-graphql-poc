@@ -31,12 +31,11 @@ passport.use(new OAuth2Strategy({
       console.log(profile._json.email);
       const existingUser = await User.findOne({email: profile._json.email});
       if(existingUser){
-        return done(null, existingUser);
+        done(null, existingUser);
     }
 
     const user = User.create({
         email: profile._json.email,
-        password: '',
         firstName: profile.name.givenName,
         lastName: profile.name.familyName,
         confirmed: true

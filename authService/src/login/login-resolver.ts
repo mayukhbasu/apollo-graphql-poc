@@ -17,7 +17,6 @@ export const loginResolver: any = {
         login: async (parent:any, args:any, {redis, session, req, res}, info) => {
             
             const {email, password} = args;
-            console.log(req.user);
             const user = await User.findOne({where: {email}});
             if(!user) {
                 return {
@@ -27,6 +26,7 @@ export const loginResolver: any = {
                 }
             }
             if(!user.confirmed) {
+                console.log("Here is the issue")
                 return {
                     token: null,
                     user: null,
@@ -37,7 +37,6 @@ export const loginResolver: any = {
             const passwordMatch = await bcrypt.compare(password, user.password);
             
             if (!passwordMatch) {
-                console.log(passwordMatch);
                 return {
                     user: null,
                     token: null,
@@ -69,7 +68,7 @@ export const loginResolver: any = {
                   if(req.sessionID && user.id) {
                       
                       await redis.lpush(`${userSessionIdPrefix}${user.id}`, req.sessionID);
-                      await redis.lpush(`${accessTokenPrefix}${user.id}`, accessToken, "EX", 10);
+                      await redis.lpush(`${accessTokenPrefix}${user.id}`, accessToken);
                   }
                   
                   res.setHeader('accessToken', `${refreshToken}`);

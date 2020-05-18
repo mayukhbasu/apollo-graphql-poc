@@ -80,9 +80,9 @@ app.get("/auth/google", passport.authenticate('google', { scope: [
 
   app.get('/auth/google/callback', 
   passport.authenticate('google') , (req:any, res) => {
-    console.log(req.sessionID)
     res.redirect('http://localhost:3000/')
   });
+  
 
 
 server.applyMiddleware({app, path});

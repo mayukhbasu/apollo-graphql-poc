@@ -13,7 +13,7 @@ export const logintypeDefs = gql`
     }
 
     extend type Mutation {
-        login(email: String!, password: String!): LoginResponse
+        login(email: String!, password: String): LoginResponse
     }
     
     
