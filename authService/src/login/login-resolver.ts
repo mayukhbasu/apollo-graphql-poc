@@ -7,9 +7,9 @@ import { access } from 'fs';
 
 export const loginResolver: any = {
     Query: {
-        me(parent:any, args:any, {session}, info) {
-         
-          return { id: "1", username: "@ava" }
+        get(parent:any, args:any, {session, req}, info) {
+          console.log(req)
+          return "Hello Mayukh"
         }
       },
     
@@ -17,6 +17,7 @@ export const loginResolver: any = {
         login: async (parent:any, args:any, {redis, session, req, res}, info) => {
             
             const {email, password} = args;
+            console.log(req.user);
             const user = await User.findOne({where: {email}});
             if(!user) {
                 return {

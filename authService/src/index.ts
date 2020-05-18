@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import {createConnection} from "typeorm";
 import * as session from "express-session";
+import * as cookieSession from 'cookie-session';
 import * as connectRedis from "connect-redis"; 
 import { ApolloServer} from "apollo-server-express";
 import { logintypeDefs } from "./login/login-typeDefs";
@@ -8,6 +9,7 @@ import { loginResolver  } from "./login/login-resolver";
 import { registerTypeDefs } from "./register/register-typeDefs";
 import {registerResolver} from "./register/register-resolver";
 import { buildFederatedSchema } from "@apollo/federation";
+import * as passport from 'passport';
 import * as express from 'express';
 import * as cookieParser from 'cookie-parser';
 import { redis } from "./redis";
@@ -17,21 +19,22 @@ import { logoutTypeDefs } from "./logout/logout-typeDefs";
 import { logoutResolver } from "./logout/logout-resolver";
 import { forgotPasswordTypeDefs } from "./forgot-password/forgot-password-typeDefs";
 import { forgotPasswordResolver } from "./forgot-password/forgot-password-resolver";
-import passport = require("passport");
-import { callback } from "./routes/authRoute";
+
 
 createConnection();
 const path = "/";
 const PORT = 4001;
 const RedisStore = connectRedis(session);
 const app = express();
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(cookieParser());
 app.use(
   session({
     store: new RedisStore({ host: 'localhost', port: 6379, client: redis,ttl :  260}),
     secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: false,
+    resave: true,
+    saveUninitialized: true,
     cookie: {
       httpOnly: true,
       path: "/",
@@ -40,6 +43,7 @@ app.use(
     }
   })
 )
+
 const server = new ApolloServer({
   schema: buildFederatedSchema([
     {
@@ -73,9 +77,13 @@ app.get("/confirm/:id", confirmEmail);
 app.get("/auth/google", passport.authenticate('google', { scope: [
   'https://www.googleapis.com/auth/userinfo.profile',
   'https://www.googleapis.com/auth/userinfo.email'] }));
-app.get('/auth/google/callback',passport.authenticate('google',{ successRedirect: '/' }, (req, res) => {
-  
-}))
+
+  app.get('/auth/google/callback', 
+  passport.authenticate('google') , (req:any, res) => {
+    console.log(req.sessionID)
+    res.redirect('http://localhost:3000/')
+  });
+
 
 server.applyMiddleware({app, path});
 app.listen({ port: PORT }, () =>

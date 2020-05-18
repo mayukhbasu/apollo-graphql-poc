@@ -1,17 +1,20 @@
 import { OAuth2Strategy } from "passport-google-oauth";
 import * as passport from "passport";
 import { User } from "../entities/User";
-import { EmailAddress } from "@sendgrid/helpers/classes";
 
 
-passport.serializeUser((user, done) => {
-    console.log("Serialization called!!!!")
+
+passport.serializeUser((user:any, done) => {
+    //console.log("Serialization called!!!!");
+    console.log(user);
+    done(null, user.email);
     
   });
   
-  passport.deserializeUser((id, done) => {
+  passport.deserializeUser(async (user: User, done) => {
     console.log("DeSerialization called!!!!")
-    
+    const existingUser = await User.findOne({email: user.email});
+    done(null, user.email);
   });
   
 
@@ -40,6 +43,6 @@ passport.use(new OAuth2Strategy({
     })
     await user.save();
     //console.log(user);
-    return done(null, user);
+    done(null, user);
   }
 ));
