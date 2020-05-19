@@ -5,7 +5,7 @@ import gql from 'graphql-tag';
 
 const USER_INFO_QUERY = gql`
 {
-
+    userInfoQuery
 }
 `
 const Shopping = (props:any) => {
