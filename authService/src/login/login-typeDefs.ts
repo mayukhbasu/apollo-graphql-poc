@@ -4,7 +4,7 @@ import {gql} from "apollo-server";
 export const logintypeDefs = gql`
 
     extend type Query {
-        get: String!
+        getUserInfo: String!
     }
     
     type LoginResponse {

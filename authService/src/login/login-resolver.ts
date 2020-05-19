@@ -7,7 +7,7 @@ import { access } from 'fs';
 
 export const loginResolver: any = {
     Query: {
-        get(parent:any, args:any, {session, req}, info) {
+        getUserInfo(parent:any, args:any, {session, req}, info) {
           console.log(req)
           return "Hello Mayukh"
         }

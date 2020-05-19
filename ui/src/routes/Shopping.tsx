@@ -1,7 +1,15 @@
 import React, {Fragment} from 'react';
-import NavbarApp from '../UI/Navbar';
+import NavbarApp from '../core/Navbar';
+import gql from 'graphql-tag';
 
+
+const USER_INFO_QUERY = gql`
+{
+
+}
+`
 const Shopping = (props:any) => {
+
     return (
         <Fragment>
             <NavbarApp/>

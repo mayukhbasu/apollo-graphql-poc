@@ -4,7 +4,6 @@ import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import NavbarApp from './Navbar';
 import './Login.css'
-import { Link } from 'react-router-dom';
 
 const LOGIN_QUERY = gql`
     mutation login($email: String!, $password: String!){
@@ -25,6 +24,7 @@ const Login = (props:any) => {
         event.preventDefault();
         const response = await loginQuery({variables: {email, password}});
         console.log(response);
+        props.history.push("/shopping")
     }
     return (
         <React.Fragment>

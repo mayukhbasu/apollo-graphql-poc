@@ -67,7 +67,7 @@ const server = new ApolloServer({
     
     //const token = req.cookies.authorization.split(" ")[1] || 'abc';
     // Try to retrieve a user with the token
-    return {redis, token, accessToken:""}
+    return {redis, token}
   },
   debug: true,
   plugins: [
