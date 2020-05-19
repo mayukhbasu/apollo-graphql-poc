@@ -24,7 +24,7 @@ const Login = (props:any) => {
         event.preventDefault();
         const response = await loginQuery({variables: {email, password}});
         console.log(response);
-        //props.history.push("/shopping")
+        props.history.push("/shopping")
     }
     return (
         <React.Fragment>

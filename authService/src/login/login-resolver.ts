@@ -8,9 +8,12 @@ import { access } from 'fs';
 export const loginResolver: any = {
     Query:  {
         getUserInfo: async(parent:any, args:any, {session, req, res}, info) => {
-          console.log(req.headers.authorization)
+          info.cacheControl.setCacheHint({ maxAge: 60000000});
           res.setHeader('accessToken', `${req.headers.authorization}`);
-          return "Hello Mayukh"
+          const email = getUser(req.headers.authorization).username;
+          let user = await User.findOne({where: {email}});
+          console.log(user);
+          return user.firstName;
         }
       },
     
