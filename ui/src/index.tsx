@@ -24,8 +24,7 @@ const afterwareLink = new ApolloLink((operation, forward) => {
     const {
       response: { headers }
     } = context
-    console.log(headers);
-
+    console.log(!!headers.get('accesstoken'));
     if (headers) {
       const refreshToken = headers.get('accesstoken');
       console.log("Inside Headers");

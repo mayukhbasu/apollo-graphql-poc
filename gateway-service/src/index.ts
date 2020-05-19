@@ -74,7 +74,6 @@ const server = new ApolloServer({
       requestDidStart() {
         return {
           willSendResponse({ context, response }) {
-            
             response.http.headers.set('Access-Control-Expose-Headers', '*');
             response.http.headers.set('accesstoken', `${context.accessToken}`);
             //response.http.headers.set('Set-Cookie', `refreshToken=${context.refreshToken}; expires=Tue, 03-Apr-2018 14:47:31 GMT; Max-Age=31449600; Path=/`);

@@ -7,9 +7,9 @@ import { access } from 'fs';
 
 export const loginResolver: any = {
     Query:  {
-        getUserInfo: async(parent:any, args:any, {session, req}, info) => {
-          console.log(getUser(req.headers.authorization))
-          
+        getUserInfo: async(parent:any, args:any, {session, req, res}, info) => {
+          console.log(req.headers.authorization)
+          res.setHeader('accessToken', `${req.headers.authorization}`);
           return "Hello Mayukh"
         }
       },
