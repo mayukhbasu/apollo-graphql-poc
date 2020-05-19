@@ -57,11 +57,16 @@ const server = new ApolloServer({
   subscriptions: false,
   context: ({ req, res}) => {
     // Get the user token from the headers
-    console.log(req.cookies);
-    const token = req.headers.authorization.split(" ")[1] || 'abc';
+    let token;
+    if(req.headers.authorization) {
+      token = req.headers.authorization.split(" ")[1];
+    } else {
+      token = "";
+    }
+    console.log(token);
     //const token = req.cookies.authorization.split(" ")[1] || 'abc';
     // Try to retrieve a user with the token
-    return {redis, token, accessToken:""}
+    return {redis, token}
   },
   debug: true,
   plugins: [
@@ -69,8 +74,9 @@ const server = new ApolloServer({
       requestDidStart() {
         return {
           willSendResponse({ context, response }) {
-            response.http.headers.set('Set-Cookie', `accessToken=${context.accessToken}; expires=Tue, 03-Apr-2018 14:47:31 GMT; Max-Age=31449600; Path=/`);
-            response.http.headers.set('Set-Cookie', `refreshToken=${context.refreshToken}; expires=Tue, 03-Apr-2018 14:47:31 GMT; Max-Age=31449600; Path=/`);
+            response.http.headers.set('Access-Control-Expose-Headers', '*');
+            response.http.headers.set('accesstoken', `${context.accessToken}`);
+            //response.http.headers.set('Set-Cookie', `refreshToken=${context.refreshToken}; expires=Tue, 03-Apr-2018 14:47:31 GMT; Max-Age=31449600; Path=/`);
             //console.log(response.http.headers);
             
           }

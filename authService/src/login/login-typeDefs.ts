@@ -4,7 +4,7 @@ import {gql} from "apollo-server";
 export const logintypeDefs = gql`
 
     extend type Query {
-        get: String!
+        getUserInfo: String!
     }
     
     type LoginResponse {
@@ -13,7 +13,7 @@ export const logintypeDefs = gql`
     }
 
     extend type Mutation {
-        login(email: String!, password: String!): LoginResponse
+        login(email: String!, password: String): LoginResponse
     }
     
     

@@ -1,4 +1,5 @@
 import { removeAllUserSession } from "../utils/removeAllUsersSession";
+import { getUser } from "../utils/getUser";
 
 
 
@@ -10,11 +11,8 @@ export const logoutResolver:any = {
     },
     Mutation: {
         logout: async(parent:any, args:any, {req, redis}, info) => {
-            
-            console.log(req.headers);
-            const userId = req.headers.userid;
+            const userId = getUser(req.headers.authorization).id;
             const {authorization} = req.headers;
-            console.log(req.sessionID)
             const isBlacklisted = await redis.get(authorization);
             console.log(isBlacklisted);
             if(isBlacklisted){

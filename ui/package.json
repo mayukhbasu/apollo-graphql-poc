@@ -3,13 +3,34 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "react": "^16.13.1",
+    "@apollo/client": "^3.0.0-beta.46",
+    "@apollo/react-hooks": "3.0.0",
+    "@reach/router": "^1.2.1",
+    "@types/node": "^12.12.14",
+    "@types/reach__router": "^1.2.6",
+    "@types/react": "^16.9.15",
+    "@types/react-dom": "^16.9.4",
+    "add": "^2.0.6",
+    "apollo-cache-inmemory": "^1.6.2",
+    "apollo-client": "^2.6.3",
+    "apollo-link-http": "^1.5.15",
+    "bootstrap": "^4.5.0",
+    "emotion": "^9.2.12",
+    "font-awesome": "^4.7.0",
+    "graphql": "^14.4.2",
+    "graphql-tag": "^2.10.1",
+    "http-proxy-middleware": "^1.0.3",
+    "polished": "^3.4.1",
+    "react": "^16.9.0-alpha.0",
     "react-apollo": "^3.1.5",
-    "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react-bootstrap": "^1.0.1",
+    "react-dom": "^16.9.0-alpha.0",
+    "react-emotion": "^9.2.12",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "^3.4.1",
+    "reactstrap": "^8.4.1",
+    "typescript": "^3.7.3",
+    "yarn": "^1.22.4"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -31,5 +52,17 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "devDependencies": {
+    "@apollo/react-testing": "3.0.0",
+    "@testing-library/jest-dom": "^4.0.0",
+    "@testing-library/react": "^8.0.7",
+    "@types/jest": "^24.0.23",
+    "@types/react-router-dom": "^5.1.5",
+    "@types/reactstrap": "^8.4.2",
+    "apollo": "^2.16.3",
+    "artillery": "^1.6.0-26",
+    "npm-watch": "^0.6.0"
+  },
+  "proxy": "http://localhost:4001"
 }

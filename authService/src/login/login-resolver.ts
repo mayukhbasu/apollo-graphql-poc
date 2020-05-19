@@ -1,21 +1,25 @@
 import * as bcrypt from 'bcryptjs';
 import { User } from '../entities/User';
 import * as jwt from 'jsonwebtoken';
-import { userSessionIdPrefix } from '../constants';
+import { userSessionIdPrefix , accessTokenPrefix} from '../constants';
 import { getUser } from '../utils/getUser';
 import { access } from 'fs';
 
 export const loginResolver: any = {
-    Query: {
-        me(parent:any, args:any, {session}, info) {
-         
-          return { id: "1", username: "@ava" }
+    Query:  {
+        getUserInfo: async(parent:any, args:any, {session, req, res}, info) => {
+          info.cacheControl.setCacheHint({ maxAge: 60000000});
+          res.setHeader('accessToken', `${req.headers.authorization}`);
+          const email = getUser(req.headers.authorization).username;
+          let user = await User.findOne({where: {email}});
+          console.log(user);
+          return user.firstName;
         }
       },
     
     Mutation: {
         login: async (parent:any, args:any, {redis, session, req, res}, info) => {
-            console.log(req.cookies);
+            
             const {email, password} = args;
             const user = await User.findOne({where: {email}});
             if(!user) {
@@ -26,6 +30,7 @@ export const loginResolver: any = {
                 }
             }
             if(!user.confirmed) {
+                console.log("Here is the issue")
                 return {
                     token: null,
                     user: null,
@@ -36,7 +41,6 @@ export const loginResolver: any = {
             const passwordMatch = await bcrypt.compare(password, user.password);
             
             if (!passwordMatch) {
-                console.log(passwordMatch);
                 return {
                     user: null,
                     token: null,
@@ -68,6 +72,7 @@ export const loginResolver: any = {
                   if(req.sessionID && user.id) {
                       
                       await redis.lpush(`${userSessionIdPrefix}${user.id}`, req.sessionID);
+                      await redis.lpush(`${accessTokenPrefix}${user.id}`, accessToken);
                   }
                   
                   res.setHeader('accessToken', `${refreshToken}`);
