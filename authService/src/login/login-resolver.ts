@@ -6,8 +6,8 @@ import { getUser } from '../utils/getUser';
 import { access } from 'fs';
 
 export const loginResolver: any = {
-    Query: {
-        getUserInfo(parent:any, args:any, {session, req}, info) {
+    Query:  {
+        getUserInfo: async(parent:any, args:any, {session, req}, info) => {
           console.log(req)
           return "Hello Mayukh"
         }
