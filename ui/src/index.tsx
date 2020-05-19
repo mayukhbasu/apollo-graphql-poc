@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom';
 import { ApolloProvider} from '@apollo/react-hooks';
 import './index.css';
 import App from './App';
+import * as _ from 'lodash';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css'
@@ -13,7 +14,9 @@ import { ApolloLink, concat } from 'apollo-link';
 
 const cache = new InMemoryCache();
 
-const httpLink = new HttpLink({ uri: 'http://localhost:4000/' });
+const httpLink = new HttpLink({ uri: 'http://localhost:4000/', headers: {
+  authorization: `Bearer ${localStorage.getItem('token')}`
+}});
 
 const afterwareLink = new ApolloLink((operation, forward) => {
   return forward(operation).map(response => {
@@ -21,11 +24,11 @@ const afterwareLink = new ApolloLink((operation, forward) => {
     const {
       response: { headers }
     } = context
-    console.log(context);
+    console.log(headers);
 
     if (headers) {
       const refreshToken = headers.get('accesstoken');
-      console.log(refreshToken);
+      console.log("Inside Headers");
       if (refreshToken) {
         localStorage.setItem("token", refreshToken)
       }
