@@ -3,11 +3,11 @@ import { User } from '../entities/User';
 import * as jwt from 'jsonwebtoken';
 import { userSessionIdPrefix , accessTokenPrefix} from '../constants';
 import { getUser } from '../utils/getUser';
-import { access } from 'fs';
+
 
 export const loginResolver: any = {
     Query:  {
-        getUserInfo: async(parent:any, args:any, {session, req, res}, info) => {
+        getUserInfo: async(parent:any, args:any, {req, res}, info) => {
           info.cacheControl.setCacheHint({ maxAge: 60000000});
           res.setHeader('accessToken', `${req.headers.authorization}`);
           const email = getUser(req.headers.authorization).username;
