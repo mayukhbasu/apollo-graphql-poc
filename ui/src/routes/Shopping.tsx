@@ -6,7 +6,10 @@ import { useQuery } from '@apollo/react-hooks';
 
 const USER_INFO_QUERY = gql`
 {
-    getUserInfo
+    getUserInfo{
+        firstName
+        lastName
+    }
 }
 `
 const Shopping = (props:any) => {

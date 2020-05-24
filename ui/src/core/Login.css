@@ -12,3 +12,7 @@
     background-color: darkmagenta !important;
     border-color: darkmagenta !important;
 }
+
+.form-control {
+    width: 100% !important;
+}

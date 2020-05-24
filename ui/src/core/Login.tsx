@@ -37,7 +37,7 @@ const Login = (props:any) => {
             <Col sm="6">
                 <FormGroup>
                     <Label for="exampleEmail">Email</Label>
-                    <Input type="email" name="email" 
+                    <Input type="email" name="email"
                     id="exampleEmail" placeholder="with a placeholder" 
                     value={email} onChange={(event) => setEmail(event.target.value)}/>
                 </FormGroup>
@@ -51,7 +51,8 @@ const Login = (props:any) => {
             <Col sm="6">
                 <FormGroup>
                     <Label for="exampleEmail">Password</Label>
-                    <Input type="password" name="password" id="password" placeholder="with a placeholder" 
+                    <Input type="password" name="password" 
+                     id="password" placeholder="with a placeholder" 
                     value={password} onChange={(event) => setPassword(event.target.value)}/>
                 </FormGroup>
             </Col>

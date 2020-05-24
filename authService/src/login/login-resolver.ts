@@ -8,12 +8,15 @@ import { getUser } from '../utils/getUser';
 export const loginResolver: any = {
     Query:  {
         getUserInfo: async(parent:any, args:any, {req, res}, info) => {
-          info.cacheControl.setCacheHint({ maxAge: 60000000});
           res.setHeader('accessToken', `${req.headers.authorization}`);
           const email = getUser(req.headers.authorization).username;
           let user = await User.findOne({where: {email}});
           console.log(user);
-          return user.firstName;
+          let userInfo = {
+            firstName: user.firstName,
+            lastName: user.lastName
+          }
+          return userInfo;
         }
       },
     

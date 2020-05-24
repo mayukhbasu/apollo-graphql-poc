@@ -4,6 +4,7 @@ import Register from './Register';
 import Home from './Home';
 import Login from '../core/Login';
 import Shopping from './Shopping';
+import Admin from './Admin/Containers/Admin';
 
 export default () => (
     <BrowserRouter>
@@ -12,6 +13,7 @@ export default () => (
             <Route path="/register" exact component={Register}/>
             <Route path="/login" exact component={Login}/>
             <Route path="/shopping" exact component={Shopping}/>
+            <Route path="/admin" exact component={Admin}/>
         </Switch>
     </BrowserRouter>
 )
