@@ -1,5 +1,5 @@
 import React , {useState} from 'react';
-import { Container, Form, Row, Col, FormGroup, Label, Input, Button} from 'reactstrap';
+import { Container, Form, Row, Col, FormGroup, Label, Input, Button, Card, CardBody} from 'reactstrap';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import NavbarApp from './Navbar';
@@ -31,8 +31,26 @@ const Login = (props:any) => {
             <NavbarApp/>
         
         <Container className="mt-5 login">
+        <Card>
+            <CardBody>
+            <Form onSubmit={submit}>
+            <FormGroup>
+                    <Label for="exampleEmail">Email</Label>
+                    <Input type="email" name="email"
+                    id="exampleEmail" placeholder="with a placeholder" 
+                    value={email} onChange={(event) => setEmail(event.target.value)}/>
+                </FormGroup>
+                <FormGroup>
+                    <Label for="exampleEmail">Password</Label>
+                    <Input type="password" name="password" 
+                     id="password" placeholder="with a placeholder" 
+                    value={password} onChange={(event) => setPassword(event.target.value)}/>
+                </FormGroup>
+                <Button size="sm" block>Login</Button>
+                </Form>
+            </CardBody>
+        </Card>
         
-        <Form onSubmit={submit}>
         <Row>
             <Col sm="6">
                 <FormGroup>
@@ -63,7 +81,7 @@ const Login = (props:any) => {
                 <Button size="sm" block>Login</Button>
             </Col>
         </Row>
-        </Form>
+        
         
     </Container>
     </React.Fragment>
