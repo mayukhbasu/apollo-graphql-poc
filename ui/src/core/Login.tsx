@@ -30,61 +30,34 @@ const Login = (props:any) => {
         <React.Fragment>
             <NavbarApp/>
         
-        <Container className="mt-5 login">
-        <Card>
+        <Card className="card-style">
             <CardBody>
-            <Form onSubmit={submit}>
-            <FormGroup>
-                    <Label for="exampleEmail">Email</Label>
-                    <Input type="email" name="email"
-                    id="exampleEmail" placeholder="with a placeholder" 
-                    value={email} onChange={(event) => setEmail(event.target.value)}/>
+                <Form onSubmit={submit}>
+                <FormGroup row>
+                    <Label md={4} for="exampleEmail">Email</Label>
+                    <Col md={6}>
+                        <Input type="email" name="email"
+                        id="email" 
+                        value={email} onChange={(event) => setEmail(event.target.value)}/>
+                    </Col>
+                    
                 </FormGroup>
-                <FormGroup>
-                    <Label for="exampleEmail">Password</Label>
-                    <Input type="password" name="password" 
-                     id="password" placeholder="with a placeholder" 
-                    value={password} onChange={(event) => setPassword(event.target.value)}/>
+                <FormGroup row>
+                    <Label md={4} for="exampleEmail">Password</Label>
+                    <Col md={6}>
+                        <Input type="password" name="password"
+                        id="password" 
+                        value={password} onChange={(event) => setPassword(event.target.value)}/>
+                    </Col>
+                    
                 </FormGroup>
-                <Button size="sm" block>Login</Button>
+                <FormGroup row style={{paddingLeft:'15px', paddingRight:'15px', paddingBottom:'2px'}}>
+                    <Button color="primary" block type="submit">Login</Button>
+                </FormGroup>
                 </Form>
             </CardBody>
         </Card>
-        
-        <Row>
-            <Col sm="6">
-                <FormGroup>
-                    <Label for="exampleEmail">Email</Label>
-                    <Input type="email" name="email"
-                    id="exampleEmail" placeholder="with a placeholder" 
-                    value={email} onChange={(event) => setEmail(event.target.value)}/>
-                </FormGroup>
-            </Col>
-            <Col sm="6"><Button type="button" className="facebook" color="danger" size="lg" 
-             block>
-                <a style={{textDecoration: 'none', color: 'white'}} href="/auth/google">Sign in with Google</a>
-            </Button></Col>
-        </Row>
-        <Row>
-            <Col sm="6">
-                <FormGroup>
-                    <Label for="exampleEmail">Password</Label>
-                    <Input type="password" name="password" 
-                     id="password" placeholder="with a placeholder" 
-                    value={password} onChange={(event) => setPassword(event.target.value)}/>
-                </FormGroup>
-            </Col>
-        </Row>
-        
-        <Row>
-            <Col sm="6">
-                <Button size="sm" block>Login</Button>
-            </Col>
-        </Row>
-        
-        
-    </Container>
-    </React.Fragment>
+        </React.Fragment>
     
     )
 }

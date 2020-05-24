@@ -12,8 +12,9 @@ class AuthenticatedDataSource extends RemoteGraphQLDataSource {
       request.http.headers.set('authorization', context.token);
     }
     async didReceiveResponse({ response, request, context }) {
-      context.accessToken = response.http.headers.get('accessToken');
-      context.refreshToken = response.http.headers.get('refreshToken');
+      context.accessToken = response.http.headers.get('accesstoken');
+      context.refreshToken = response.http.headers.get('refreshtoken');
+      console.log()
       return response;
     }
   }
@@ -63,7 +64,7 @@ const server = new ApolloServer({
     } else {
       token = "";
     }
-    console.log(token);
+    //console.log(token);
     //const token = req.cookies.authorization.split(" ")[1] || 'abc';
     // Try to retrieve a user with the token
     return {redis, token}
@@ -74,6 +75,8 @@ const server = new ApolloServer({
       requestDidStart() {
         return {
           willSendResponse({ context, response }) {
+            console.log("The access token is")
+            console.log(context.accessToken)
             response.http.headers.set('Access-Control-Expose-Headers', '*');
             response.http.headers.set('accesstoken', `${context.accessToken}`);
             //response.http.headers.set('Set-Cookie', `refreshToken=${context.refreshToken}; expires=Tue, 03-Apr-2018 14:47:31 GMT; Max-Age=31449600; Path=/`);

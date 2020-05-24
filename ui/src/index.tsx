@@ -11,12 +11,23 @@ import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css'
 import { ApolloLink, concat } from 'apollo-link';
+import { setContext } from 'apollo-link-context';
 
 const cache = new InMemoryCache();
 
-const httpLink = new HttpLink({ uri: 'http://localhost:4000/', headers: {
-  authorization: `Bearer ${localStorage.getItem('token')}`
-}});
+const httpLink = new HttpLink({ uri: 'http://localhost:4000/'});
+
+const authLink = setContext((_, { headers }) => {
+  // get the authentication token from local storage if it exists
+  const token = localStorage.getItem('token');
+  // return the headers to the context so httpLink can read them
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : "",
+    }
+  }
+});
 
 const afterwareLink = new ApolloLink((operation, forward) => {
   return forward(operation).map(response => {
@@ -24,7 +35,7 @@ const afterwareLink = new ApolloLink((operation, forward) => {
     const {
       response: { headers }
     } = context
-    console.log(!!headers.get('accesstoken'));
+    console.log(response);
     if (headers) {
       const refreshToken = headers.get('accesstoken');
       console.log("Inside Headers");
@@ -38,7 +49,7 @@ const afterwareLink = new ApolloLink((operation, forward) => {
 })
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   cache,
-  link: concat(afterwareLink, httpLink)
+  link: authLink.concat(httpLink).concat(afterwareLink)
   });
 
 ReactDOM.render(

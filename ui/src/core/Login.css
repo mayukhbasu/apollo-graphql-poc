@@ -16,3 +16,10 @@
 .form-control {
     width: 100% !important;
 }
+
+.card-style {
+   margin-top: 100px;
+   width: 60%;
+   position: relative;
+   left: 20%;
+}
