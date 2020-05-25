@@ -33,14 +33,17 @@ export const productManegementResolvers: any = {
             const productAlreadyExists = await Product.findOne({where: {title}});
             console.log(productAlreadyExists)
             if(productAlreadyExists){
-                return null
+                console.log("This exists")
+                return {
+                    message: "Already exists"
+                }
             }
             const newProduct = Product.create({
                 title, price, category, url
             });
-            console.log(newProduct);
+            
             await newProduct.save();
-            return newProduct;
+            return null;
         }
     }
     

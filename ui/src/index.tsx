@@ -6,11 +6,10 @@ import ReactDOM from 'react-dom';
 import { ApolloProvider} from '@apollo/react-hooks';
 import './index.css';
 import App from './App';
-import * as _ from 'lodash';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css'
-import { ApolloLink, concat } from 'apollo-link';
+import { ApolloLink} from 'apollo-link';
 import { setContext } from 'apollo-link-context';
 
 const cache = new InMemoryCache();

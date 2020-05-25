@@ -1,11 +1,17 @@
-import React, { PureComponent } from 'react'
+
+export const initialProductState = {
+    title: '',
+    price: '',
+    category: '',
+    url: ''
+};
 
 
-const reducer = (state:any, actions:any) => {
-    return {
-        ...state,
-        
+export const adminReducer = (state:any, action:any) => {
+    
+    switch(action.type){
+        case 'ADD_PRODUCT':
+            console.log(action);
+            return initialProductState
     }
 }
-
-export default reducer;

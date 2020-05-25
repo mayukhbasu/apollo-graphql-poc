@@ -1,5 +1,5 @@
 import React , {useState} from 'react';
-import { Container, Form, Row, Col, FormGroup, Label, Input, Button, Card, CardBody} from 'reactstrap';
+import { Form,Col, FormGroup, Label, Input, Button, Card, CardBody} from 'reactstrap';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import NavbarApp from './Navbar';

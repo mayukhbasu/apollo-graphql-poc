@@ -5,6 +5,10 @@ export const productManegementTypeDefs = gql`
         dummy3: String!
         viewAllProducts: [Product!]
     }
+    extend type Error {
+        message: String! @external
+    }
+    
     type Product {
         title: String!
         price: Int!
@@ -12,7 +16,7 @@ export const productManegementTypeDefs = gql`
         url: String!
     }
     type Mutation {
-        addProduct(title: String!, price: Int!, category: String!, url: String!): Product
+        addProduct(title: String!, price: Int!, category: String!, url: String!): Error
     }
     
 `

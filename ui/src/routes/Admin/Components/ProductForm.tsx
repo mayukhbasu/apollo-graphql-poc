@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react';
 import './ProductForm.css'
-import { Container, Row, Col, Form, FormGroup, Input, Label, Card, CardBody, CardTitle, Button } from "reactstrap";
+import { Container, Col, Form, FormGroup, Input, Label, Card, CardBody, CardTitle, Button } from "reactstrap";
 
 const initialProductState = {
     title: '',
