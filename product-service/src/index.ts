@@ -1,8 +1,8 @@
 import { createConnection } from "typeorm";
 import { ApolloServer} from "apollo-server-express";
 import { buildFederatedSchema } from "@apollo/federation";
-import { addProductTypeDefs } from "./add-product/add-product-typeDefs";
-import { addProductResolver } from "./add-product/add-product-resolver";
+import { productManegementTypeDefs } from "./product-management/product-management-typeDefs";
+import { productManegementResolvers } from "./product-management/product-management-resolver";
 import * as express from 'express';
 
 createConnection();
@@ -12,8 +12,8 @@ const app = express();
 const server = new ApolloServer({
     schema: buildFederatedSchema([
         {
-            typeDefs: addProductTypeDefs,
-            resolvers: addProductResolver
+            typeDefs: productManegementTypeDefs,
+            resolvers: productManegementResolvers
         }
     ])
 });

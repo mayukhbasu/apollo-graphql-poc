@@ -4,17 +4,21 @@ import { Product } from '../entity/Product';
 
 
 const schema = yup.object().shape({
-    title: yup.string().min(1).max(255).email(),
+    title: yup.string().min(1).max(255),
     price: yup.number().min(1).max(255),
     category: yup.string().min(1).max(255),
     url: yup.string().min(1)
 });
 
-export const addProductResolver:any = {
+export const productManegementResolvers: any = {
     Query: {
         dummy3: () => {
             console.log("mayukh123")
             return "Inside add product resolver"
+        },
+        viewAllProducts: async () => {
+          const allProducts = await Product.find(null);
+          return allProducts;
         }
     },
     Mutation: {
@@ -39,4 +43,5 @@ export const addProductResolver:any = {
             return newProduct;
         }
     }
+    
 }

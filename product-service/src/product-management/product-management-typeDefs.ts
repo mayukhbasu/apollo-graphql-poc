@@ -1,8 +1,9 @@
 import {gql} from "apollo-server";
 
-export const addProductTypeDefs = gql`
+export const productManegementTypeDefs = gql`
     type Query {
         dummy3: String!
+        viewAllProducts: [Product!]
     }
     type Product {
         title: String!
@@ -13,4 +14,5 @@ export const addProductTypeDefs = gql`
     type Mutation {
         addProduct(title: String!, price: Int!, category: String!, url: String!): Product
     }
+    
 `
