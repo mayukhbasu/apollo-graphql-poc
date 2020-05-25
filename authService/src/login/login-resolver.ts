@@ -9,7 +9,6 @@ export const loginResolver: any = {
     Query:  {
         getUserInfo: async(parent:any, args:any, {req, res}, info) => {
           console.log(req.headers.authorization);
-          res.setHeader('accesstoken', `${req.headers.authorization}`);
           const email = getUser(req.headers.authorization).username;
           let user = await User.findOne({where: {email}});
           console.log(user);

@@ -9,6 +9,6 @@
    "dropSchema": false,
    "logging": false,
    "entities": [
-      "./src/entities/*.ts"
+      "./src/entity/*.ts"
    ]
 }

@@ -41,7 +41,8 @@ class AuthenticatedDataSource extends RemoteGraphQLDataSource {
   )
 const gateway = new ApolloGateway({
     serviceList: [
-      { name: 'auth', url: 'http://localhost:4001' }
+      { name: 'auth', url: 'http://localhost:4001' },
+      { name: 'product', url: 'http://localhost:4002' }
       
       // List other services here
     ],
