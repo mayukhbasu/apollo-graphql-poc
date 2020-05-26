@@ -10,6 +10,7 @@ export const loginResolver: any = {
         getUserInfo: async(parent:any, args:any, {req, res}, info) => {
           console.log(req.headers.authorization);
           const email = getUser(req.headers.authorization).username;
+          //res.setHeader('accesstoken', req.headers.authorization)
           let user = await User.findOne({where: {email}});
           console.log(user);
           let userInfo = {
@@ -78,8 +79,8 @@ export const loginResolver: any = {
                       await redis.lpush(`${accessTokenPrefix}${user.id}`, accessToken);
                   }
                   console.log(accessToken)
-                  res.setHeader('accesstoken', `${refreshToken}`);
-                  res.setHeader('refreshtoken', `${accessToken}`);
+                  res.setHeader('accesstoken', `${accessToken}`);
+                  res.setHeader('refreshtoken', `${refreshToken}`);
                   return {
                           user,
                           message: "Login Successful"

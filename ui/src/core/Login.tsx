@@ -23,7 +23,6 @@ const Login = (props:any) => {
     const submit = async (event:any) => {
         event.preventDefault();
         const response = await loginQuery({variables: {email, password}});
-        console.log(response);
         props.history.push("/shopping")
     }
     return (

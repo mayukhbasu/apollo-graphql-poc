@@ -78,10 +78,10 @@ const server = new ApolloServer({
           willSendResponse({ context, response }) {
             console.log("The access token is")
             console.log(context.accessToken)
-            response.http.headers.set('Access-Control-Expose-Headers', '*');
-            response.http.headers.set('accesstoken', `${context.accessToken}`);
-            //response.http.headers.set('Set-Cookie', `refreshToken=${context.refreshToken}; expires=Tue, 03-Apr-2018 14:47:31 GMT; Max-Age=31449600; Path=/`);
-            //console.log(response.http.headers);
+            if(context.accessToken) {
+              response.http.headers.set('Access-Control-Expose-Headers', '*');
+              response.http.headers.set('accesstoken', `${context.accessToken}`);
+            }
             
           }
         };

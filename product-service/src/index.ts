@@ -15,7 +15,13 @@ const server = new ApolloServer({
             typeDefs: productManegementTypeDefs,
             resolvers: productManegementResolvers
         }
-    ])
+    ]),
+    context: ({req, res}) => {
+        return {
+            
+            req, res
+        }
+    }
 });
 
 server.applyMiddleware({app, path});

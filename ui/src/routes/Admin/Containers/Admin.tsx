@@ -7,7 +7,7 @@ import { useMutation } from '@apollo/react-hooks';
 const ADD_PRODUCT_QUERY = gql`
     mutation addProduct($title: String!,$price: Int!, $category: String!, $url: String!){
         addProduct(title: $title, price: $price, category: $category, url: $url){
-            message1
+            message
         }
     }
 `

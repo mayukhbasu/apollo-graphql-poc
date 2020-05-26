@@ -9,7 +9,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css'
-import { ApolloLink} from 'apollo-link';
+import { ApolloLink, concat, from} from 'apollo-link';
 import { setContext } from 'apollo-link-context';
 
 const cache = new InMemoryCache();
@@ -20,6 +20,7 @@ const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
   const token = localStorage.getItem('token');
   // return the headers to the context so httpLink can read them
+  console.log("Here is the token")
   return {
     headers: {
       ...headers,
@@ -28,18 +29,24 @@ const authLink = setContext((_, { headers }) => {
   }
 });
 
+
 const afterwareLink = new ApolloLink((operation, forward) => {
   return forward(operation).map(response => {
-    const context = operation.getContext()
+    const context = operation.getContext();
+    // console.log("inside afterware");
+    
     const {
       response: { headers }
     } = context
-    console.log(response);
+    
     if (headers) {
-      const refreshToken = headers.get('accesstoken');
-      console.log("Inside Headers");
-      if (refreshToken) {
-        localStorage.setItem("token", refreshToken)
+      const accesstoken = headers.get('accesstoken');
+      
+      if (accesstoken !== null) {
+        console.log("access token is ", accesstoken);
+        localStorage.setItem("token", accesstoken)
+      } else {
+        console.log("Other block")
       }
     }
 
@@ -48,7 +55,7 @@ const afterwareLink = new ApolloLink((operation, forward) => {
 })
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   cache,
-  link: authLink.concat(httpLink).concat(afterwareLink)
+  link: from([authLink, afterwareLink, httpLink])
   });
 
 ReactDOM.render(
