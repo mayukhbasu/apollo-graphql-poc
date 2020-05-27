@@ -79,7 +79,7 @@ app.get("/auth/google", passport.authenticate('google', { scope: [
 
   app.get('/auth/google/callback', 
   passport.authenticate('google') , (req:any, res) => {
-    res.redirect('http://localhost:3000/')
+    res.send("hello mayukh")
   });
   
 
