@@ -78,7 +78,8 @@ app.get("/auth/google", passport.authenticate('google', { scope: [
   'https://www.googleapis.com/auth/userinfo.email'] }));
 
   app.get('/auth/google/callback', 
-  passport.authenticate('google') , (req:any, res) => {
+  passport.authenticate('google') , (req:any, res:any) => {
+    console.log(res.user)
     res.redirect('http://localhost:3000/');
   });
   

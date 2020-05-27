@@ -1,20 +1,21 @@
 import { OAuth2Strategy } from "passport-google-oauth";
 import * as passport from "passport";
 import { User } from "../entities/User";
+import * as jwt from 'jsonwebtoken';
 
 
 
 passport.serializeUser((user:any, done) => {
     //console.log("Serialization called!!!!");
     console.log(user);
-    done(null, user.email);
+    done(null, user);
     
   });
   
   passport.deserializeUser(async (user: User, done) => {
     console.log("DeSerialization called!!!!")
     const existingUser = await User.findOne({email: user.email});
-    done(null, user.email);
+    done(null, existingUser);
   });
   
 
@@ -27,8 +28,6 @@ passport.use(new OAuth2Strategy({
     
   },
   async(accessToken, refreshToken, profile, done) => {
-      console.log(accessToken);
-      console.log(profile._json.email);
       const existingUser = await User.findOne({email: profile._json.email});
       if(existingUser){
         return done(null, existingUser);
@@ -39,7 +38,7 @@ passport.use(new OAuth2Strategy({
         firstName: profile.name.givenName,
         lastName: profile.name.familyName,
         confirmed: true,
-        password: 'abc'
+        password: jwt.sign(accessToken, 'secret')
     })
     await user.save();
     done(null, user);
