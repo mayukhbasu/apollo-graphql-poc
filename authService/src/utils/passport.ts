@@ -31,7 +31,7 @@ passport.use(new OAuth2Strategy({
       console.log(profile._json.email);
       const existingUser = await User.findOne({email: profile._json.email});
       if(existingUser){
-        done(null, existingUser);
+        return done(null, existingUser);
     }
 
     const user = User.create({
