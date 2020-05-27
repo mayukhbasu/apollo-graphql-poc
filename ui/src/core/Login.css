@@ -12,3 +12,15 @@
     background-color: darkmagenta !important;
     border-color: darkmagenta !important;
 }
+
+.form-control {
+    width: 100% !important;
+}
+
+.card-style {
+   margin-top: 100px;
+   width: 60%;
+   position: relative;
+   left: 20%;
+   padding: 0 20px 0 20px
+}

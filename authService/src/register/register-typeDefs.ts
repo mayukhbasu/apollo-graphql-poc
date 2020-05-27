@@ -18,7 +18,7 @@ export const registerTypeDefs = gql`
 
     
 
-    type Error {
+    type Error @key(fields: "message") {
         path: String!
         message: String!
     }

@@ -38,10 +38,10 @@ passport.use(new OAuth2Strategy({
         email: profile._json.email,
         firstName: profile.name.givenName,
         lastName: profile.name.familyName,
-        confirmed: true
+        confirmed: true,
+        password: 'abc'
     })
     await user.save();
-    //console.log(user);
     done(null, user);
   }
 ));

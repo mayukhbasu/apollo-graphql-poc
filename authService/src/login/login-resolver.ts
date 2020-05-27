@@ -3,17 +3,21 @@ import { User } from '../entities/User';
 import * as jwt from 'jsonwebtoken';
 import { userSessionIdPrefix , accessTokenPrefix} from '../constants';
 import { getUser } from '../utils/getUser';
-import { access } from 'fs';
+
 
 export const loginResolver: any = {
     Query:  {
-        getUserInfo: async(parent:any, args:any, {session, req, res}, info) => {
-          info.cacheControl.setCacheHint({ maxAge: 60000000});
-          res.setHeader('accessToken', `${req.headers.authorization}`);
+        getUserInfo: async(parent:any, args:any, {req, res}, info) => {
+          console.log(req.headers.authorization);
           const email = getUser(req.headers.authorization).username;
+          //res.setHeader('accesstoken', req.headers.authorization)
           let user = await User.findOne({where: {email}});
           console.log(user);
-          return user.firstName;
+          let userInfo = {
+            firstName: user.firstName,
+            lastName: user.lastName
+          }
+          return userInfo;
         }
       },
     
@@ -74,9 +78,9 @@ export const loginResolver: any = {
                       await redis.lpush(`${userSessionIdPrefix}${user.id}`, req.sessionID);
                       await redis.lpush(`${accessTokenPrefix}${user.id}`, accessToken);
                   }
-                  
-                  res.setHeader('accessToken', `${refreshToken}`);
-                  res.setHeader('refreshToken', `${accessToken}`);
+                  console.log(accessToken)
+                  res.setHeader('accesstoken', `${accessToken}`);
+                  res.setHeader('refreshtoken', `${refreshToken}`);
                   return {
                           user,
                           message: "Login Successful"

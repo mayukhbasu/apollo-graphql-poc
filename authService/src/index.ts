@@ -1,7 +1,6 @@
 import "reflect-metadata";
 import {createConnection} from "typeorm";
 import * as session from "express-session";
-import * as cookieSession from 'cookie-session';
 import * as connectRedis from "connect-redis"; 
 import { ApolloServer} from "apollo-server-express";
 import { logintypeDefs } from "./login/login-typeDefs";
@@ -80,7 +79,7 @@ app.get("/auth/google", passport.authenticate('google', { scope: [
 
   app.get('/auth/google/callback', 
   passport.authenticate('google') , (req:any, res) => {
-    res.redirect('http://localhost:3000/')
+    res.send("hello mayukh")
   });
   
 
