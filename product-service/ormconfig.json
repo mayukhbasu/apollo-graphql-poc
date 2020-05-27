@@ -6,7 +6,7 @@
    "password": "carrie1974",
    "database": "postgres",
    "synchronize": true,
-   "dropSchema": true,
+   "dropSchema": false,
    "logging": false,
    "entities": [
       "./src/entity/*.ts"

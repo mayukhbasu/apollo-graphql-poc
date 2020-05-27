@@ -1,5 +1,5 @@
 import React , {useState} from 'react';
-import { Form,Col, FormGroup, Label, Input, Button, Card, CardBody} from 'reactstrap';
+import { Form,Col, FormGroup, Label, Input, Button, Card, CardBody, Row} from 'reactstrap';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import NavbarApp from './Navbar';
@@ -25,11 +25,16 @@ const Login = (props:any) => {
         const response = await loginQuery({variables: {email, password}});
         props.history.push("/shopping")
     }
+
+    const loginWithGoogle = () => {
+        window.open("http://localhost:4001/auth/google", "_self");
+    }
     return (
         <React.Fragment>
             <NavbarApp/>
         
         <Card className="card-style">
+            <Row>
             <CardBody>
                 <Form onSubmit={submit}>
                 <FormGroup row>
@@ -55,7 +60,13 @@ const Login = (props:any) => {
                 </FormGroup>
                 </Form>
             </CardBody>
-        </Card>
+        
+            </Row>
+            </Card>
+            <div className="d-flex p-2 bd-highlight justify-content-center mt-4" >
+                <Button color="danger" style={{width:'60%'}} onClick={loginWithGoogle}>Sign in with google</Button>
+            </div>
+            
         </React.Fragment>
     
     )
