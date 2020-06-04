@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom';
 import { ApolloProvider} from '@apollo/react-hooks';
 import './index.css';
 import App from './App';
+import Cookie from "js-cookie";
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css'
@@ -18,9 +19,9 @@ const httpLink = new HttpLink({ uri: 'http://localhost:4000/'});
 
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('token')
   // return the headers to the context so httpLink can read them
-  console.log("Here is the token")
+  console.log(token)
   return {
     headers: {
       ...headers,
@@ -43,7 +44,6 @@ const afterwareLink = new ApolloLink((operation, forward) => {
       const accesstoken = headers.get('accesstoken');
       
       if (accesstoken !== null) {
-        console.log("access token is ", accesstoken);
         localStorage.setItem("token", accesstoken)
       } else {
         console.log("Other block")

@@ -18,6 +18,7 @@ import { logoutTypeDefs } from "./logout/logout-typeDefs";
 import { logoutResolver } from "./logout/logout-resolver";
 import { forgotPasswordTypeDefs } from "./forgot-password/forgot-password-typeDefs";
 import { forgotPasswordResolver } from "./forgot-password/forgot-password-resolver";
+import { getToken } from "./utils/getUser";
 
 
 createConnection();
@@ -79,7 +80,9 @@ app.get("/auth/google", passport.authenticate('google', { scope: [
 
   app.get('/auth/google/callback', 
   passport.authenticate('google') , (req:any, res:any) => {
-    console.log(res.user)
+    let password = req.user.password;
+    let token = getToken(password);
+    res.cookie('access_token', `${token}`, {expire: 360000 + Date.now()}); 
     res.redirect('http://localhost:3000/');
   });
   

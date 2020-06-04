@@ -18,6 +18,9 @@ export class User extends BaseEntity{
     @Column() 
     password: string;
 
+    @Column({nullable: true}) 
+    roleName: string;
+
     @Column("boolean", { default: false })
     confirmed: boolean;
 

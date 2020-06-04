@@ -52,7 +52,8 @@ export const registerResolver: any = {
                     email, 
                     password : hashedPassword,
                     firstName,
-                    lastName
+                    lastName,
+                    roleName: 'user'
                 });
                 await user.save();
                 const link = await createConfirmEmailLink(url, user.id, redis);
