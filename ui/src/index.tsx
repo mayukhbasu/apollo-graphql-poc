@@ -41,6 +41,7 @@ const afterwareLink = new ApolloLink((operation, forward) => {
     } = context
     
     if (headers) {
+      console.error()
       const accesstoken = headers.get('accesstoken');
       
       if (accesstoken !== null) {
