@@ -2,23 +2,18 @@ import React, {Fragment} from 'react';
 import NavbarApp from '../core/Navbar';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
+import './Shopping.css'
+import { Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText, Button, Container, Row, Col, CardFooter } from 'reactstrap';
+import ProductCard from '../core/ProductCard';
 
-
-const USER_INFO_QUERY = gql`
-{
-    getUserInfo{
-        firstName
-        lastName
-    }
-}
-`
 const Shopping = (props:any) => {
-    const {loading, error, data} = useQuery(USER_INFO_QUERY);
     return (
-        <Fragment>
-            <NavbarApp/>
-            Inside Shopping Component
-        </Fragment>
+        <Container style={{marginTop:'5rem'}}>
+            <Row>
+                <ProductCard></ProductCard>
+                <ProductCard></ProductCard>
+            </Row>
+        </Container>
     )
 }
 

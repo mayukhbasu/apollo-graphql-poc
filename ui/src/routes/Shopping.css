@@ -1,0 +1,21 @@
+.flex-center-align {
+    display: flex;
+    align-items: center;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+.card-footer {
+    padding: 0px !important;
+}
+button {
+    border-radius: 0px !important;
+}
+
+.text-justify {
+    text-align: justify!important;
+    margin-top: 5px;
+}
