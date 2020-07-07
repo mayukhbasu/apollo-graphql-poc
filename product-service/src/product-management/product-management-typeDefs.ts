@@ -14,6 +14,7 @@ export const productManegementTypeDefs = gql`
         price: Int!
         category: String!
         url: String!
+        id: ID!
     }
     type Mutation {
         addProduct(title: String!, price: Int!, category: String!, url: String!): Error

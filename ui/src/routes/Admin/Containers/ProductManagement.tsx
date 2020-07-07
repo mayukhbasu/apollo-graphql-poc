@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container } from 'reactstrap';
-import gql from 'graphql-tag';
+
 
 
 
