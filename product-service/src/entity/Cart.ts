@@ -10,6 +10,5 @@ export class Cart extends BaseEntity {
     @Column()
     userID: string;
     
-    @Column()
-    products: [Product]
+    
 }

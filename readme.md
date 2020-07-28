@@ -1,0 +1,1 @@
+The codebase is a POC for authentication for a graphql server using apollo gateway microservice. It uses basic authentication and authorization using the gateway and how to integrate all the pieces.

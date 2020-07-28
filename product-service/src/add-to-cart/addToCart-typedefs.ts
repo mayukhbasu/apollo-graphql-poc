@@ -3,9 +3,8 @@ import { gql } from "apollo-server";
 export const AddToCartTypeDefs = gql`
 
     type Cart {
-        title: String!
-        itemNumbers: Number!
-        price: Number!
+        userID: string
+        products: [Products]
     }
 
     extend type Error {
@@ -17,7 +16,7 @@ export const AddToCartTypeDefs = gql`
     }
 
     type Mutation {
-        addToCart(userID: String!, productID: String!, itemNumbers: Number!, price: Number!): Error
+        addToCart(userID: String!, products: [Products]): Error
     }
 
 `
