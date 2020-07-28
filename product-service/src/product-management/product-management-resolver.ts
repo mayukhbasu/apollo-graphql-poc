@@ -24,7 +24,7 @@ export const productManegementResolvers: any = {
     Mutation: {
         addProduct: async (parent, args, ctx, info) => {
             const {title, price, category, url} = args;
-            console.log(ctx.req);
+            
             try {
                 schema.validate(args, {abortEarly: false})
             } catch(err) {

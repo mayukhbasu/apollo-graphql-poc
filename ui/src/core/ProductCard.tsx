@@ -4,7 +4,7 @@ import './ProductCard.css'
 const ProductCard = (props:any) => {
 
     const addProduct = (product) => {
-      
+      props.submit(product);
     }
     return (
         

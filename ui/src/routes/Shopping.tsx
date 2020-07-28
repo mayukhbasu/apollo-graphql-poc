@@ -24,11 +24,18 @@ const Shopping = (props:any) => {
     if (loading) return 'Loading...';
     if (error) return `Error! ${error.message}`;
     const allProducts = data.viewAllProducts
+
+    const addToCart = (props:any) => {
+        console.log(props);
+    }
     return (
         <Container style={{marginTop:'5rem'}}>
             <Row>
                 {
-                    allProducts.map((product, key) => <ProductCard key={key} product={product}></ProductCard>)
+                    allProducts.map((product, key) => <ProductCard key={key} 
+                    product={product} submit={addToCart}>
+                    
+                    </ProductCard>)
                 }
             </Row>
         </Container>

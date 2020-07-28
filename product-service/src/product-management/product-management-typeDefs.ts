@@ -15,7 +15,13 @@ export const productManegementTypeDefs = gql`
         category: String!
         url: String!
         id: ID!
+        user: User
     }
+
+    extend type User @key(fields: "id") {
+        id: String! @external
+    }
+
     type Mutation {
         addProduct(title: String!, price: Int!, category: String!, url: String!): Error
     }

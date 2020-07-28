@@ -18,7 +18,7 @@ import { logoutTypeDefs } from "./logout/logout-typeDefs";
 import { logoutResolver } from "./logout/logout-resolver";
 import { forgotPasswordTypeDefs } from "./forgot-password/forgot-password-typeDefs";
 import { forgotPasswordResolver } from "./forgot-password/forgot-password-resolver";
-import { getToken } from "./utils/getUser";
+
 
 
 createConnection();
@@ -74,17 +74,17 @@ const server = new ApolloServer({
 });
 
 app.get("/confirm/:id", confirmEmail);
-app.get("/auth/google", passport.authenticate('google', { scope: [
-  'https://www.googleapis.com/auth/userinfo.profile',
-  'https://www.googleapis.com/auth/userinfo.email'] }));
+// app.get("/auth/google", passport.authenticate('google', { scope: [
+//   'https://www.googleapis.com/auth/userinfo.profile',
+//   'https://www.googleapis.com/auth/userinfo.email'] }));
 
-  app.get('/auth/google/callback', 
-  passport.authenticate('google') , (req:any, res:any) => {
-    let password = req.user.password;
-    let token = getToken(password);
-    res.cookie('access_token', `${token}`, {expire: 360000 + Date.now()}); 
-    res.redirect('http://localhost:3000/');
-  });
+//   app.get('/auth/google/callback', 
+//   passport.authenticate('google') , (req:any, res:any) => {
+//     let password = req.user.password;
+//     let token = getToken(password);
+//     res.cookie('access_token', `${token}`, {expire: 360000 + Date.now()}); 
+//     res.redirect('http://localhost:3000/');
+//   });
   
 
 

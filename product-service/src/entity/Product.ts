@@ -18,4 +18,7 @@ export class Product extends BaseEntity{
     @Column()
     url: string
 
+    @Column()
+    count: number;
+
 }

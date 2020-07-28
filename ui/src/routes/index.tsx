@@ -23,7 +23,8 @@ const USER_INFO_QUERY = gql`
 `
 export default () => {
     const {loading, error, data} = useQuery(USER_INFO_QUERY);
-    console.log(data);
+    if(loading) return <div>Loading...</div>
+    if(error) return <Login/>
     return (
     
         <BrowserRouter>

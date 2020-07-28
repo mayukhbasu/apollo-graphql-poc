@@ -1,17 +1,15 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Product } from "./Product";
 
 @Entity()
-export class Card extends BaseEntity {
+export class Cart extends BaseEntity {
 
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
     @Column()
     userID: string;
-
+    
     @Column()
-    productID: string;
-
-    @Column()
-    itemNumbers: number;
+    products: [Product]
 }
