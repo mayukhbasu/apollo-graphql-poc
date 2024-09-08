@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "baseUrl": "./",
+    "typeRoots": ["./node_modules/@types", "./src"],
+    "types": ["node"],
+    "outDir": "./dist"
+  },
+  "include": ["src/**/*.ts", "graphql.d.ts"]
+}
