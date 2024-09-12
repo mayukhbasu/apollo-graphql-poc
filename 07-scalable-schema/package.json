@@ -27,6 +27,7 @@
     "graphql": "15.8.0"
   },
   "devDependencies": {
-    "npm-force-resolutions": "^0.0.10"
+    "npm-force-resolutions": "^0.0.10",
+    "ts-node": "^10.9.2"
   }
 }
